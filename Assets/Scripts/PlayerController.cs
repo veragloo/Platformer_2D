@@ -25,9 +25,13 @@ namespace TarodevController
         [SerializeField] private Transform wallCheck;
         [SerializeField] private float wallCheckDistance;
         [SerializeField] private LayerMask WhatIsGround;
+        [SerializeField] private LayerMask PushableLayer;
         private bool isWallDetected;
         private bool isWallDetectedLeft;
         private bool isWallSliding;
+        
+        private bool isObjectDetected;
+        private bool isObjectDetectedLeft;
         
         [SerializeField] private GameObject leftWallDetector; 
         [SerializeField] private GameObject rightWallDetector; 
@@ -178,7 +182,6 @@ namespace TarodevController
                CheckForLedge();
             }
             
-
             CheckCollisions();
             HandleJump();
             HandleDirection();
@@ -186,6 +189,8 @@ namespace TarodevController
             HandleDash();
             HandleWallMovement();
             HandleWallSliding();
+            HandlePushableObject();
+            
             ApplyMovement();
         }
 
@@ -266,6 +271,40 @@ namespace TarodevController
 
             // Set animation state
             _anim.SetBool("isWallSliding", isWallSliding);
+        }
+
+        private void HandlePushableObject()
+        {
+            // Object/Wall detection (Slide)
+            isObjectDetected = Physics2D.Raycast(wallCheck.position, Vector2.right, wallCheckDistance, WhatIsGround | PushableLayer);
+            isObjectDetectedLeft = Physics2D.Raycast(wallCheck.position, Vector2.left, wallCheckDistance, WhatIsGround | PushableLayer);
+
+            // condition d'input vers le mur
+            bool isMovingTowardsPushable = false;
+
+            // Lire l'input horizontal avec le Input System
+            float horizontalInput = moveAction.ReadValue<Vector2>().x;  
+
+            // Vérifie si l'input est dirigé vers le mur détecté
+            if (isObjectDetected && horizontalInput > 0)
+            {
+                isMovingTowardsPushable = true;
+            }
+            else if (isObjectDetectedLeft && horizontalInput < 0)
+            {
+                isMovingTowardsPushable = true;
+            }
+
+            // Determine if Pushing is active
+            bool isPushingWall = isMovingTowardsPushable && _grounded && !isWallSliding && !_isGrabbingWall;
+
+            // Set animation state
+            _anim.SetBool("isPushingWall", isPushingWall);
+
+            if (isPushingWall)
+            {
+                Debug.Log("Player is pushing the wall!");
+            }
         }
 
         
