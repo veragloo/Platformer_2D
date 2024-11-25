@@ -11387,10 +11387,13 @@ MonoBehaviour:
   inputActions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   _stats: {fileID: 11400000, guid: ec2e5f4c304362548b99b4028f0bfc26, type: 2}
   wallCheck: {fileID: 1186070749}
-  wallCheckDistance: 0.22
+  wallCheckDistance: 0.28
   WhatIsGround:
     serializedVersion: 2
     m_Bits: 1048576
+  PushableLayer:
+    serializedVersion: 2
+    m_Bits: 4194304
   leftWallDetector: {fileID: 1736721944}
   rightWallDetector: {fileID: 655689274}
   offset1Right: {x: -0.039, y: -0.6}
@@ -11620,7 +11623,7 @@ GameObject:
   - component: {fileID: 1142142115}
   - component: {fileID: 1142142114}
   - component: {fileID: 1142142113}
-  m_Layer: 0
+  m_Layer: 22
   m_Name: Platform (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
