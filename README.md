@@ -20,8 +20,7 @@ The project is designed to be modular and flexible, with ambitious goals for fut
 
 At this stage, the focus is on developing the core gameplay mechanics, with particular attention to:
 - Character movement
-- Jumping and dashing mechanics
-- Gravity and collision management
+- Animation and transition 
 - Establishing a solid foundation for future gameplay features
 
 The aim is to create a robust foundation that can later be enriched with new mechanics, characters, and varied environments.
