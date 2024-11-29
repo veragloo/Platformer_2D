@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +72,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -95,10 +95,10 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 4
     textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
+    compressionQuality: 0
+    crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
     ignorePlatformSupport: 0
@@ -137,10 +137,10 @@ TextureImporter:
       name: Run v3_0
       rect:
         serializedVersion: 2
-        x: 11
+        x: 0
         y: 0
-        width: 27
-        height: 32
+        width: 54
+        height: 44
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,10 +159,10 @@ TextureImporter:
       name: Run v3_1
       rect:
         serializedVersion: 2
-        x: 66
-        y: 3
-        width: 26
-        height: 30
+        x: 54
+        y: 0
+        width: 54
+        height: 44
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,10 +181,10 @@ TextureImporter:
       name: Run v3_2
       rect:
         serializedVersion: 2
-        x: 119
-        y: 2
-        width: 31
-        height: 29
+        x: 108
+        y: 0
+        width: 54
+        height: 44
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,10 +203,10 @@ TextureImporter:
       name: Run v3_3
       rect:
         serializedVersion: 2
-        x: 172
+        x: 162
         y: 0
-        width: 28
-        height: 30
+        width: 54
+        height: 44
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -225,10 +225,10 @@ TextureImporter:
       name: Run v3_4
       rect:
         serializedVersion: 2
-        x: 227
+        x: 216
         y: 0
-        width: 31
-        height: 32
+        width: 54
+        height: 44
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -247,10 +247,10 @@ TextureImporter:
       name: Run v3_5
       rect:
         serializedVersion: 2
-        x: 282
-        y: 3
-        width: 30
-        height: 31
+        x: 270
+        y: 0
+        width: 54
+        height: 44
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -269,10 +269,10 @@ TextureImporter:
       name: Run v3_6
       rect:
         serializedVersion: 2
-        x: 334
-        y: 2
-        width: 31
-        height: 30
+        x: 324
+        y: 0
+        width: 54
+        height: 44
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -291,10 +291,10 @@ TextureImporter:
       name: Run v3_7
       rect:
         serializedVersion: 2
-        x: 393
+        x: 378
         y: 0
-        width: 24
-        height: 30
+        width: 54
+        height: 44
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -313,7 +313,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 6119c398226f3174d8cfbf27796b1ee3
     internalID: 0
     vertices: []
     indices: 
@@ -322,7 +322,15 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Run v3_0: 7277433815267370024
+      Run v3_1: 8611023795621211449
+      Run v3_2: -32691059578056781
+      Run v3_3: -5014634423788160361
+      Run v3_4: 5974361049787792705
+      Run v3_5: -7342133855529017157
+      Run v3_6: -423326282603335377
+      Run v3_7: -1436020981535339076
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
