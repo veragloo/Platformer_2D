@@ -1,28 +1,25 @@
 fileFormatVersion: 2
-guid: 9e3362146a6bd4640b5fa0ca92382124
+guid: ff96358a6767e734fbe90de57c93b335
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2731378055878101408
-    second: Wall Grab Idle_0
+      213: 3921934613044021526
+    second: WallGrabClimb v3_0
   - first:
-      213: -4098237886807899515
-    second: Wall Grab Idle_1
+      213: 2805730770990123218
+    second: WallGrabClimb v3_1
   - first:
-      213: -8043559991657518321
-    second: Wall Grab Idle_2
+      213: -6674496187945710649
+    second: WallGrabClimb v3_2
   - first:
-      213: 3389571347032724066
-    second: Wall Grab Idle_3
+      213: 854545938164713214
+    second: WallGrabClimb v3_3
   - first:
-      213: 9123777524593081055
-    second: Wall Grab Idle_4
+      213: -1288660423901672892
+    second: WallGrabClimb v3_4
   - first:
-      213: 8319392365228347932
-    second: Wall Grab Idle_5
-  - first:
-      213: 8430952692203960027
-    second: Wall Grab Idle_6
+      213: -437444564626678479
+    second: WallGrabClimb v3_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -92,7 +89,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 4
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -131,7 +128,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Wall Grab Idle_0
+      name: WallGrabClimb v3_0
       rect:
         serializedVersion: 2
         x: 0
@@ -146,14 +143,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0a949efceddc7e520800000000000000
-      internalID: 2731378055878101408
+      spriteID: 6194cc250c28d6630800000000000000
+      internalID: 3921934613044021526
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Wall Grab Idle_1
+      name: WallGrabClimb v3_1
       rect:
         serializedVersion: 2
         x: 54
@@ -168,14 +165,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 58284c7fa522027c0800000000000000
-      internalID: -4098237886807899515
+      spriteID: 2d8cf345545ffe620800000000000000
+      internalID: 2805730770990123218
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Wall Grab Idle_2
+      name: WallGrabClimb v3_2
       rect:
         serializedVersion: 2
         x: 108
@@ -190,14 +187,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f0ba5bfddc88f5090800000000000000
-      internalID: -8043559991657518321
+      spriteID: 7cb0cce741d6f53a0800000000000000
+      internalID: -6674496187945710649
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Wall Grab Idle_3
+      name: WallGrabClimb v3_3
       rect:
         serializedVersion: 2
         x: 162
@@ -212,14 +209,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2625ab07e2d2a0f20800000000000000
-      internalID: 3389571347032724066
+      spriteID: ef68f80d005fbdb00800000000000000
+      internalID: 854545938164713214
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Wall Grab Idle_4
+      name: WallGrabClimb v3_4
       rect:
         serializedVersion: 2
         x: 216
@@ -234,14 +231,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fda301b915b2e9e70800000000000000
-      internalID: 9123777524593081055
+      spriteID: 44a8c3d0c22cd1ee0800000000000000
+      internalID: -1288660423901672892
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Wall Grab Idle_5
+      name: WallGrabClimb v3_5
       rect:
         serializedVersion: 2
         x: 270
@@ -256,30 +253,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c125884374b647370800000000000000
-      internalID: 8319392365228347932
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Wall Grab Idle_6
-      rect:
-        serializedVersion: 2
-        x: 324
-        y: 0
-        width: 54
-        height: 44
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bd6b0f0fdc2c00570800000000000000
-      internalID: 8430952692203960027
+      spriteID: 13d50847c72ede9f0800000000000000
+      internalID: -437444564626678479
       vertices: []
       indices: 
       edges: []
@@ -288,7 +263,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 63f70ebeb22e46c499d2975a60cba7e4
+    spriteID: 205e3f1ba215d51498887a292617fe62
     internalID: 0
     vertices: []
     indices: 
@@ -298,13 +273,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Wall Grab Idle_0: 2731378055878101408
-      Wall Grab Idle_1: -4098237886807899515
-      Wall Grab Idle_2: -8043559991657518321
-      Wall Grab Idle_3: 3389571347032724066
-      Wall Grab Idle_4: 9123777524593081055
-      Wall Grab Idle_5: 8319392365228347932
-      Wall Grab Idle_6: 8430952692203960027
+      WallGrabClimb v3_0: 3921934613044021526
+      WallGrabClimb v3_1: 2805730770990123218
+      WallGrabClimb v3_2: -6674496187945710649
+      WallGrabClimb v3_3: 854545938164713214
+      WallGrabClimb v3_4: -1288660423901672892
+      WallGrabClimb v3_5: -437444564626678479
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
