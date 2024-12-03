@@ -71,7 +71,7 @@ namespace TarodevController
 
         private void HandleSpriteFlip()
         {
-            if (_player.FrameInput.x != 0 && !_player.IsGrabbingWall && !_player.canClimb)
+            if (_player.FrameInput.x != 0 && !_player.IsGrabbingWall && !_player.canClimb && !_player.IsDashing)
             {
                 _sprite.flipX = _player.FrameInput.x < 0;
             }

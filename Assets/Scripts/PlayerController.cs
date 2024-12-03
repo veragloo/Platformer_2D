@@ -112,6 +112,7 @@ namespace TarodevController
                     _time += Time.deltaTime;
                     GatherInput();
 
+                    // Don't touch this unless you hate yourself.
                     HandleWallGrab();
                 }
 
@@ -165,6 +166,7 @@ namespace TarodevController
 
         private void FixedUpdate()
         {
+            // Fix this later (or never). REF z8#2/Origin#1
             if (canClimb)
             {
                 _rb.linearVelocity = Vector2.zero; 
@@ -197,6 +199,9 @@ namespace TarodevController
         #region Collisions
         
         private float _frameLeftGrounded = float.MinValue;
+        public PhysicsMaterial2D zeroFrictionMaterial;
+        public PhysicsMaterial2D FrictionMaterial;
+        private bool _forceZeroFriction = false;
         private bool _grounded;
 
         private void CheckCollisions()
@@ -260,10 +265,25 @@ namespace TarodevController
             if (isWallDetected && horizontalInput > 0)
             {
                 isMovingTowardsWall = true;
+                
             }
             else if (isWallDetectedLeft && horizontalInput < 0)
             {
                 isMovingTowardsWall = true;
+                
+            }
+
+            // Appliquer le matériau en fonction de la direction, sauf si zeroFriction est forcé
+            if (_col != null)
+            {
+                if (_forceZeroFriction)
+                {
+                    _col.sharedMaterial = zeroFrictionMaterial;
+                }
+                else
+                {
+                    _col.sharedMaterial = isMovingTowardsWall ? FrictionMaterial : zeroFrictionMaterial;
+                }
             }
 
             // Determine if sliding is active
@@ -325,7 +345,7 @@ namespace TarodevController
         private float _timeWallJumpWasPressed; 
         private bool HasBufferedWallJump => _canWallJump && _time < _timeWallJumpWasPressed + _stats.JumpBuffer;
 
-        public PhysicsMaterial2D zeroFrictionMaterial;
+        
 
         private void HandleJump()
         {
@@ -352,6 +372,7 @@ namespace TarodevController
                 else
                 {
                     ExecuteJump();
+                    StartCoroutine(ApplyZeroFriction());
                 }
             }
             
@@ -392,7 +413,8 @@ namespace TarodevController
 
             if (_isGrabbingWall)
             {
-                StartCoroutine(ApplyZeroFrictionTemporarily());
+                // Forcer zéro friction pendant le Wall Jump
+                StartCoroutine(ApplyZeroFriction());
                 Debug.Log($"Wall Grab Detected. Applying vertical jump only. _wallNormal: {_wallNormal}");
                 _frameVelocity = new Vector2(0, _stats.JumpPower);
                 _isGrabbingWall = false; 
@@ -412,25 +434,29 @@ namespace TarodevController
 
             Jumped?.Invoke();
         }
-        
-        // Coroutine pour appliquer le material de friction nulle pendant 0.2 secondes
-        private IEnumerator ApplyZeroFrictionTemporarily()
+
+        // Coroutine pour appliquer le matériau de friction nulle
+        private IEnumerator ApplyZeroFriction()
         {
             if (_col != null && zeroFrictionMaterial != null)
             {
-                // Appliquer le material avec zéro friction
+                // Activer le flag de priorité
+                _forceZeroFriction = true;
+
+                // Appliquer le matériau avec zéro friction
                 _col.sharedMaterial = zeroFrictionMaterial;
 
                 // Attendre pendant 0.2 secondes
                 yield return new WaitForSeconds(0.2f);
 
-                // Retirer le material 
-                _col.sharedMaterial = null; 
+                // Désactiver le flag de priorité
+                _forceZeroFriction = false;
+
+                // Restaurer le matériau en fonction de la logique du Wall Sliding
+                _col.sharedMaterial = isWallDetected || isWallDetectedLeft ? FrictionMaterial : zeroFrictionMaterial;
             }
         }
-
-
-
+        
         #endregion
 
         #region Dash
@@ -486,6 +512,7 @@ namespace TarodevController
         {
             if (_isDashing)
             {
+                StartCoroutine(ApplyZeroFriction());
                 // Mise à jour du temps et du progrès du dash
                 dashProgress += Time.fixedDeltaTime / _stats.DashDuration;
                 _dashTimeRemaining -= Time.fixedDeltaTime;
@@ -721,7 +748,6 @@ namespace TarodevController
             }
             else
             {
-                // Applique la gravité normale quand le personnage n'est pas accroché au mur
                 _rb.gravityScale = 1f;
             }
         
@@ -749,6 +775,7 @@ namespace TarodevController
 
         private void ApplyMovement() => _rb.linearVelocity = _frameVelocity;
         
+        // Cleaning ? pls
         private float facingDirection = 1f;
         private void OnDrawGizmos()
         {
