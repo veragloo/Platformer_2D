@@ -11403,6 +11403,7 @@ MonoBehaviour:
   ledgeDetectedLeft: 0
   ledgeDetected: 0
   zeroFrictionMaterial: {fileID: 6200000, guid: 1d77bbd43c305d34dbc89600d6018750, type: 2}
+  FrictionMaterial: {fileID: 6200000, guid: b6baeb347849a65419f9ecbaad50296d, type: 2}
   dashDecelerationCurve:
     serializedVersion: 2
     m_Curve:
@@ -11437,7 +11438,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 1d77bbd43c305d34dbc89600d6018750, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -11642,7 +11643,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 40
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
