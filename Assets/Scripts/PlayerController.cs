@@ -112,6 +112,7 @@ namespace TarodevController
                     _time += Time.deltaTime;
                     GatherInput();
 
+                    // Don't touch this unless you hate yourself.
                     HandleWallGrab();
                 }
 
@@ -165,6 +166,7 @@ namespace TarodevController
 
         private void FixedUpdate()
         {
+            // Fix this later (or never). REF z8#2/Origin#1
             if (canClimb)
             {
                 _rb.linearVelocity = Vector2.zero; 
@@ -721,7 +723,6 @@ namespace TarodevController
             }
             else
             {
-                // Applique la gravité normale quand le personnage n'est pas accroché au mur
                 _rb.gravityScale = 1f;
             }
         
@@ -749,6 +750,7 @@ namespace TarodevController
 
         private void ApplyMovement() => _rb.linearVelocity = _frameVelocity;
         
+        // Cleaning ? pls
         private float facingDirection = 1f;
         private void OnDrawGizmos()
         {
