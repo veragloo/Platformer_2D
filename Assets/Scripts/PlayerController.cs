@@ -128,6 +128,7 @@ namespace TarodevController
                 GrabHeld = grabAction.ReadValue<float>() > 0
             };
 
+            // Why here?
             bool dashPressed = dashAction.triggered;
             if (dashPressed && _canDash && !_anim.GetCurrentAnimatorStateInfo(0).IsName("LedgeClimb"))
             {
