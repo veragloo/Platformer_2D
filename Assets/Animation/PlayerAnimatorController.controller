@@ -8,7 +8,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Idle v3
-  m_Speed: 1
+  m_Speed: 0.7
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2250061523117423484}
@@ -22,7 +22,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 55c6196504d9c2d468eefe521f137bcc, type: 2}
+  m_Motion: {fileID: 7400000, guid: 40f697ef0e4ea374790f2d32aeb66dd2, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -122,7 +122,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WallSlide
-  m_Speed: 1
+  m_Speed: 0.7
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -5700267562110665500}
@@ -136,7 +136,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 8b8626ad443bd18479d1f1c48f601997, type: 2}
+  m_Motion: {fileID: 7400000, guid: 111be928bb4c62a4bbb6b6e64700374f, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -150,7 +150,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WallGrabIdle
-  m_Speed: 1
+  m_Speed: 0.7
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 6194522979659432093}
@@ -164,7 +164,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 8b8626ad443bd18479d1f1c48f601997, type: 2}
+  m_Motion: {fileID: 7400000, guid: 111be928bb4c62a4bbb6b6e64700374f, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -193,7 +193,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 242773e38bdd50841bff7e80bc5f07e2, type: 2}
+  m_Motion: {fileID: 7400000, guid: 8dec6b29e25faec4ab5861eec156b7f3, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -718,7 +718,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: cb9e51e392325f447914a7a0173a1faa, type: 2}
+  m_Motion: {fileID: 7400000, guid: 5817a09252065284a9e2c9da9dee2f84, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -796,7 +796,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: da937970c7139ba4981d088165a28a59, type: 2}
+  m_Motion: {fileID: 7400000, guid: e3fcccb8fb5767841b128879ef76492a, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -874,7 +874,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 97b838384bed092419f699e8b1c75cb5, type: 2}
+  m_Motion: {fileID: 7400000, guid: 99def391e16a8a144be1f595140ebbb4, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1039,7 +1039,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f0862119a3d88cd429f43de5e7356989, type: 2}
+  m_Motion: {fileID: 7400000, guid: 07bb82d1a5b902740acd86f11703300a, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1183,7 +1183,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 7ca794a07c3b78646af7ff91dd30731d, type: 2}
+  m_Motion: {fileID: 7400000, guid: 5183eda0cc985a74298c5d3e9bd2b7f4, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1211,7 +1211,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 94c11645733ee7443accef2ed3a50611, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3ad1a454623e2d0419fa272be4775fd8, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
