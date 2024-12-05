@@ -54,6 +54,7 @@ namespace TarodevController
         public bool IsGrounded => _grounded;
         public bool IsDashing => _isDashing;
         public bool IsGrabbingWall => _isGrabbingWall;
+        public bool IsWallSliding => isWallSliding;
         public bool canClimb { get; private set; }
         public float CurrentClimbSpeed => _currentClimbSpeed;
 
@@ -811,6 +812,7 @@ namespace TarodevController
         public Vector2 FrameInput { get; }
         bool IsDashing { get; }
         public bool IsGrabbingWall { get; }
+        public bool IsWallSliding { get; }
         bool canClimb { get; }
         float CurrentClimbSpeed { get; }
         bool IsGrounded { get; }

@@ -18,6 +18,8 @@ namespace TarodevController
         [SerializeField] private ParticleSystem _launchParticles;
         [SerializeField] private ParticleSystem _moveParticles;
         [SerializeField] private ParticleSystem _landParticles;
+        [SerializeField] private ParticleSystem _wallSlideParticles;
+        [SerializeField] private ParticleSystem _wallGrabParticles;
 
         [Header("Audio Clips")]
         [SerializeField] private AudioClip[] _footsteps;
@@ -67,13 +69,18 @@ namespace TarodevController
             HandleCharacterTilt();
             HandleDashAnimation();
             HandleGrabClimbing();
+            OnWallSlide();
+            OnWallGrab();
         }
 
+        private bool isFlipped = false; 
         private void HandleSpriteFlip()
         {
             if (_player.FrameInput.x != 0 && !_player.IsGrabbingWall && !_player.canClimb && !_player.IsDashing)
             {
                 _sprite.flipX = _player.FrameInput.x < 0;
+
+                isFlipped = _sprite.flipX;
             }
         }
 
@@ -140,32 +147,77 @@ namespace TarodevController
             }
         }
 
+        private void OnWallSlide()
+        {
+            if (_player.IsWallSliding)
+            {
+                // Utilise la variable isFlipped pour savoir si le joueur est en flip X
+                float offsetX = isFlipped ? -0.18f : 0.18f; // Décalage à gauche si flip X, à droite sinon
+
+                // Positionner les particules de wall slide avec l'offset
+                _wallSlideParticles.transform.position = new Vector3(transform.position.x + offsetX, transform.position.y, transform.position.z);
+
+                // Lancer les particules si elles ne sont pas déjà lancées
+                if (!_wallSlideParticles.isPlaying)
+                {
+                    _wallSlideParticles.Play();
+                }
+            }
+            else
+            {
+                if (_wallSlideParticles.isPlaying)
+                {
+                    _wallSlideParticles.Stop();
+                }
+            }
+        }
+
+        private void OnWallGrab()
+        {
+            if (_player.IsGrabbingWall && _rigidbody.linearVelocity.y < - 1f) 
+            {
+                // Utilisation de _wallGrabParticles pour l'agrippement au mur
+                float offsetX = isFlipped ? -0.18f : 0.18f; // Décalage selon le flip X
+                _wallGrabParticles.transform.position = new Vector3(transform.position.x + offsetX, transform.position.y, transform.position.z);
+
+                // Démarrer les particules de WallGrab
+                if (!_wallGrabParticles.isPlaying)
+                {
+                    _wallGrabParticles.Play();
+                }
+            }
+            else
+            {
+                if (_wallGrabParticles.isPlaying)
+                {
+                    _wallGrabParticles.Stop();
+                }
+            }
+        }
+
         private void OnJumped()
         {
             _anim.SetTrigger(JumpKey);
             _anim.ResetTrigger(GroundedKey);
 
-            if (_player.IsGrounded)
+            if (_jumpParticles != null && _player.IsGrounded)
             {
-                SetColor(_jumpParticles);
-                SetColor(_launchParticles);
+                _jumpParticles.transform.position = new Vector3(transform.position.x, transform.position.y - 0.65f, transform.position.z);
+
                 _jumpParticles.Play();
             }
         }
-
+        
         private void OnGroundedChanged(bool grounded, float impact)
         {
-            if (grounded)
+            if (grounded) 
             {
-                DetectGroundColor();
-                SetColor(_landParticles);
-
                 _anim.SetTrigger(GroundedKey);
-                _source.PlayOneShot(_footsteps[Random.Range(0, _footsteps.Length)]);
-                _moveParticles.Play();
+                // _source.PlayOneShot(_footsteps[Random.Range(0, _footsteps.Length)]);
 
-                _landParticles.transform.localScale = Vector3.one * Mathf.InverseLerp(0, 40, impact);
-                _landParticles.Play();
+                _landParticles.transform.position = new Vector3(transform.position.x, transform.position.y - 0.65f, transform.position.z);
+
+                _landParticles.Play(); // ajouter un if velocity.y min ?? dono
             }
             else
             {
