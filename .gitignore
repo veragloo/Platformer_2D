@@ -7,6 +7,9 @@
 [Ii]deas
 [Uu]ser[Ss]ettings/
 
+# Ignore the folder which contains assets that cannot be publicly distributed. 
+Assets/Private/
+
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
