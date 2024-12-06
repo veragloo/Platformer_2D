@@ -40,9 +40,15 @@ Once the prototyping phase and gameplay stabilization are complete, the focus wi
 - UI and player feedback improvements
 - A playable demo version
 
+## Asset Accessibility
+
+Please note that **some assets used in this project are not included in the public repository** due to licensing constraints. If you wish to contribute or work on the project with these assets, please **contact me directly** to access the required files.
+
+The assets are located in the `Assets/Private` directory and are necessary for full functionality and visuals in the game. Without access to these, the project may not display correctly or function as intended.
+
 ## Contribute
 
-If you'd like to contribute to the project, feel free to fork the repository and submit your improvements through *pull requests*.
+If you'd like to contribute to the project, feel free to fork the repository and submit your improvements through *pull requests*. If you're interested in accessing the private assets, please contact me for further details.
 
 ---
 
