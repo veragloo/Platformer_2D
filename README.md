@@ -46,6 +46,8 @@ Please note that **some assets used in this project are not included in the publ
 
 The assets are located in the `Assets/Private` directory and are necessary for full functionality and visuals in the game. Without access to these, the project may not display correctly or function as intended.
 
+For more information, please refer to the [LICENSE.md](./LICENSE.md) file.
+
 ## Contribute
 
 If you'd like to contribute to the project, feel free to fork the repository and submit your improvements through *pull requests*. If you're interested in accessing the private assets, please contact me for further details.
