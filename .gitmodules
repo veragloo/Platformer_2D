@@ -1,0 +1,3 @@
+[submodule "Assets/Private"]
+	path = Assets/Private
+	url = https://github.com/cfrBernard/Platformer_2D-PrivateAssets
