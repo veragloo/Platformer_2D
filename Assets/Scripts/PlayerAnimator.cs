@@ -15,8 +15,7 @@ namespace TarodevController
 
         [Header("Particles")]
         [SerializeField] private ParticleSystem _jumpParticles;
-        [SerializeField] private ParticleSystem _launchParticles;
-        [SerializeField] private ParticleSystem _moveParticles;
+        [SerializeField] private ParticleSystem _wallJumpParticles;
         [SerializeField] private ParticleSystem _landParticles;
         [SerializeField] private ParticleSystem _wallSlideParticles;
         [SerializeField] private ParticleSystem _wallGrabParticles;
@@ -39,17 +38,15 @@ namespace TarodevController
         private void OnEnable()
         {
             _player.Jumped += OnJumped;
+            _player.WallJumped += OnWallJumped;
             _player.GroundedChanged += OnGroundedChanged;
-
-            _moveParticles.Play();
         }
 
         private void OnDisable()
         {
             _player.Jumped -= OnJumped;
+            _player.WallJumped -= OnWallJumped;
             _player.GroundedChanged -= OnGroundedChanged;
-
-            _moveParticles.Stop();
         }
 
         private void Update()
@@ -76,7 +73,7 @@ namespace TarodevController
         private bool isFlipped = false; 
         private void HandleSpriteFlip()
         {
-            if (_player.FrameInput.x != 0 && !_player.IsGrabbingWall && !_player.canClimb && !_player.IsDashing)
+            if (_player.FrameInput.x != 0 && !_player.IsGrabbingWall && !_player.canClimb)
             {
                 _sprite.flipX = _player.FrameInput.x < 0;
 
@@ -88,7 +85,7 @@ namespace TarodevController
         {
             var inputStrength = Mathf.Abs(_player.FrameInput.x);
             _anim.SetFloat(IdleSpeedKey, Mathf.Lerp(1, _maxIdleSpeed, inputStrength));
-            _moveParticles.transform.localScale = Vector3.MoveTowards(_moveParticles.transform.localScale, Vector3.one * inputStrength, 2 * Time.deltaTime);
+            
         }
 
         private void HandleCharacterTilt()
@@ -152,12 +149,9 @@ namespace TarodevController
             if (_player.IsWallSliding)
             {
                 // Utilise la variable isFlipped pour savoir si le joueur est en flip X
-                float offsetX = isFlipped ? -0.18f : 0.18f; // Décalage à gauche si flip X, à droite sinon
-
-                // Positionner les particules de wall slide avec l'offset
+                float offsetX = isFlipped ? -0.17f : 0.17f; // Décalage à gauche si flip X, à droite sinon
                 _wallSlideParticles.transform.position = new Vector3(transform.position.x + offsetX, transform.position.y, transform.position.z);
 
-                // Lancer les particules si elles ne sont pas déjà lancées
                 if (!_wallSlideParticles.isPlaying)
                 {
                     _wallSlideParticles.Play();
@@ -177,10 +171,9 @@ namespace TarodevController
             if (_player.IsGrabbingWall && _rigidbody.linearVelocity.y < - 1f) 
             {
                 // Utilisation de _wallGrabParticles pour l'agrippement au mur
-                float offsetX = isFlipped ? -0.18f : 0.18f; // Décalage selon le flip X
+                float offsetX = isFlipped ? -0.17f : 0.17f; // Décalage selon le flip X
                 _wallGrabParticles.transform.position = new Vector3(transform.position.x + offsetX, transform.position.y, transform.position.z);
 
-                // Démarrer les particules de WallGrab
                 if (!_wallGrabParticles.isPlaying)
                 {
                     _wallGrabParticles.Play();
@@ -207,6 +200,16 @@ namespace TarodevController
                 _jumpParticles.Play();
             }
         }
+
+        private void OnWallJumped()
+        {
+            if (_wallJumpParticles != null)
+            {
+                float offsetX = isFlipped ? -0.17f : 0.17f;
+                _wallJumpParticles.transform.position = new Vector3(transform.position.x + offsetX, transform.position.y, transform.position.z);
+                _wallJumpParticles.Play();
+            }
+        }
         
         private void OnGroundedChanged(bool grounded, float impact)
         {
@@ -219,10 +222,6 @@ namespace TarodevController
 
                 _landParticles.Play(); // ajouter un if velocity.y min ?? dono
             }
-            else
-            {
-                _moveParticles.Stop();
-            }
         }
 
         private void DetectGroundColor()
@@ -232,7 +231,6 @@ namespace TarodevController
             if (!hit || hit.collider.isTrigger || !hit.transform.TryGetComponent(out SpriteRenderer r)) return;
             var color = r.color;
             _currentGradient = new ParticleSystem.MinMaxGradient(color * 0.9f, color * 1.2f);
-            SetColor(_moveParticles);
         }
 
         private void SetColor(ParticleSystem ps)
