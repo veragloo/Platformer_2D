@@ -51,6 +51,7 @@ namespace TarodevController
         public Vector2 FrameInput => _frameInput.Move;
         public event Action<bool, float> GroundedChanged;
         public event Action Jumped;
+        public event Action WallJumped;
         public bool IsGrounded => _grounded;
         public bool IsDashing => _isDashing;
         public bool IsGrabbingWall => _isGrabbingWall;
@@ -322,11 +323,6 @@ namespace TarodevController
 
             // Set animation state
             _anim.SetBool("isPushingWall", isPushingWall);
-
-            if (isPushingWall)
-            {
-                Debug.Log("Player is pushing the wall!");
-            }
         }
 
         
@@ -417,7 +413,6 @@ namespace TarodevController
             {
                 // Forcer zéro friction pendant le Wall Jump
                 StartCoroutine(ApplyZeroFriction());
-                Debug.Log($"Wall Grab Detected. Applying vertical jump only. _wallNormal: {_wallNormal}");
                 _frameVelocity = new Vector2(0, _stats.JumpPower);
                 _isGrabbingWall = false; 
                 _rb.gravityScale = 1f;  
@@ -426,15 +421,14 @@ namespace TarodevController
             }
             else
             {
-                Debug.Log($"Wall Jump with Push. _wallNormal: {_wallNormal}");
                 _frameVelocity = new Vector2(_wallNormal.x * _stats.WallJumpPushForce, _stats.JumpPower);
             }
-            Debug.Log($"Final Velocity: {_frameVelocity}");
 
             // Désactiver temporairement Wall Jump
             _canWallJump = false;
 
             Jumped?.Invoke();
+            WallJumped?.Invoke();
         }
 
         // Coroutine pour appliquer le matériau de friction nulle
@@ -809,6 +803,7 @@ namespace TarodevController
         public event Action<bool, float> GroundedChanged;
 
         public event Action Jumped;
+        public event Action WallJumped;
         public Vector2 FrameInput { get; }
         bool IsDashing { get; }
         public bool IsGrabbingWall { get; }
