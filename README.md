@@ -20,6 +20,7 @@ The project is designed to be modular and flexible, with ambitious goals for fut
 
 At this stage, the focus is on developing the core gameplay mechanics, with particular attention to:
 - Character movement
+- Particles system
 - Animation and transition 
 - Establishing a solid foundation for future gameplay features
 
