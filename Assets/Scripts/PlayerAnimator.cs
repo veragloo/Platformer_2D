@@ -19,6 +19,7 @@ namespace TarodevController
         [SerializeField] private ParticleSystem _landParticles;
         [SerializeField] private ParticleSystem _wallSlideParticles;
         [SerializeField] private ParticleSystem _wallGrabParticles;
+        [SerializeField] private ParticleSystem _pushParticles;
 
         [Header("Audio Clips")]
         [SerializeField] private AudioClip[] _footsteps;
@@ -210,7 +211,15 @@ namespace TarodevController
                 _wallJumpParticles.Play();
             }
         }
+
+        private void OnPush()
+        {
+            var velocityOverLifetime = _pushParticles.velocityOverLifetime;
+            velocityOverLifetime.x = isFlipped ? 100f : -100f;
         
+            _pushParticles.Play();
+        }
+
         private void OnGroundedChanged(bool grounded, float impact)
         {
             if (grounded) 
