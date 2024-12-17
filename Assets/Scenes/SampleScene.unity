@@ -2250,7 +2250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6209743920410380454, guid: 7201fb82ab9a0cf49b322ec55342953b, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.31942925
+      value: 0.20762901
       objectReference: {fileID: 0}
     - target: {fileID: 6209743920410380454, guid: 7201fb82ab9a0cf49b322ec55342953b, type: 3}
       propertyPath: m_LocalScale.y
@@ -2262,11 +2262,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6209743920410380454, guid: 7201fb82ab9a0cf49b322ec55342953b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.007
+      value: -0.019
       objectReference: {fileID: 0}
     - target: {fileID: 6209743920410380454, guid: 7201fb82ab9a0cf49b322ec55342953b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.633
+      value: -0.665
       objectReference: {fileID: 0}
     - target: {fileID: 6209743920410380454, guid: 7201fb82ab9a0cf49b322ec55342953b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2301,6 +2301,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8981654527837056450, guid: 7201fb82ab9a0cf49b322ec55342953b, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8981654527837056450, guid: 7201fb82ab9a0cf49b322ec55342953b, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8981654527837056450, guid: 7201fb82ab9a0cf49b322ec55342953b, type: 3}
       propertyPath: NoiseModule.enabled
       value: 0
       objectReference: {fileID: 0}
@@ -2310,10 +2318,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8981654527837056450, guid: 7201fb82ab9a0cf49b322ec55342953b, type: 3}
       propertyPath: VelocityModule.x.scalar
-      value: -100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8981654527837056450, guid: 7201fb82ab9a0cf49b322ec55342953b, type: 3}
       propertyPath: VelocityModule.y.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8981654527837056450, guid: 7201fb82ab9a0cf49b322ec55342953b, type: 3}
+      propertyPath: VelocityModule.inWorldSpace
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8981654527837056450, guid: 7201fb82ab9a0cf49b322ec55342953b, type: 3}
@@ -2330,7 +2342,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8981654527837056450, guid: 7201fb82ab9a0cf49b322ec55342953b, type: 3}
       propertyPath: InitialModule.gravityModifier.scalar
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2736,6 +2748,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6758935018870199544, guid: e988250ed04b8594d823ad9cfad6404e, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758935018870199544, guid: e988250ed04b8594d823ad9cfad6404e, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.07
+      objectReference: {fileID: 0}
     - target: {fileID: 7404082408893277817, guid: e988250ed04b8594d823ad9cfad6404e, type: 3}
       propertyPath: m_Name
       value: GrabParticles
@@ -2797,6 +2817,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8981654527837056450, guid: 7201fb82ab9a0cf49b322ec55342953b, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2810,6 +2834,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2150170083677781999, guid: 791dad615b02d0d4e97af630b11ddb3c, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.12
+      objectReference: {fileID: 0}
     - target: {fileID: 2330764981913258571, guid: 791dad615b02d0d4e97af630b11ddb3c, type: 3}
       propertyPath: m_Name
       value: LandParticles
@@ -2871,6 +2899,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlideParticles
       objectReference: {fileID: 0}
+    - target: {fileID: 5724198083583454549, guid: 77fec109ffc32a14b9e61116a036c9c7, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5724198083583454549, guid: 77fec109ffc32a14b9e61116a036c9c7, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.07
+      objectReference: {fileID: 0}
     - target: {fileID: 7247455674040900244, guid: 77fec109ffc32a14b9e61116a036c9c7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.3939996
@@ -2926,8 +2962,8 @@ SceneRoots:
   - {fileID: 7253995802660172899}
   - {fileID: 867964248038389811}
   - {fileID: 3376884240941324755}
-  - {fileID: 1289279251}
   - {fileID: 6274545758422856322}
+  - {fileID: 1289279251}
   - {fileID: 117749554}
   - {fileID: 52966893}
   - {fileID: 1988797431}

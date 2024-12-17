@@ -111,7 +111,6 @@ namespace TarodevController
 
         private bool isClimbing = false;
         private float climbSpeedThreshold = 0.2f;
-
         private void HandleGrabClimbing()
         {
             if (_anim.GetCurrentAnimatorStateInfo(0).IsName("LedgeClimb"))
@@ -172,7 +171,7 @@ namespace TarodevController
             if (_player.IsGrabbingWall && _rigidbody.linearVelocity.y < - 1f) 
             {
                 // Utilisation de _wallGrabParticles pour l'agrippement au mur
-                float offsetX = isFlipped ? -0.17f : 0.17f; // Décalage selon le flip X
+                float offsetX = isFlipped ? -0.18f : 0.18f; // Décalage selon le flip X
                 _wallGrabParticles.transform.position = new Vector3(transform.position.x + offsetX, transform.position.y, transform.position.z);
 
                 if (!_wallGrabParticles.isPlaying)
@@ -206,7 +205,7 @@ namespace TarodevController
         {
             if (_wallJumpParticles != null)
             {
-                float offsetX = isFlipped ? -0.17f : 0.17f;
+                float offsetX = isFlipped ? -0.18f : 0.18f;
                 _wallJumpParticles.transform.position = new Vector3(transform.position.x + offsetX, transform.position.y, transform.position.z);
                 _wallJumpParticles.Play();
             }
@@ -214,10 +213,17 @@ namespace TarodevController
 
         private void OnPush()
         {
-            var velocityOverLifetime = _pushParticles.velocityOverLifetime;
-            velocityOverLifetime.x = isFlipped ? 100f : -100f;
-        
-            _pushParticles.Play();
+            if (_player.IsGrounded)
+            {
+                var velocityOverLifetime = _pushParticles.velocityOverLifetime;
+                velocityOverLifetime.x = isFlipped ? 70f : -70f;
+
+                _pushParticles.Play();
+            }
+            else
+            {
+                _pushParticles.Stop();
+            }
         }
 
         private void OnGroundedChanged(bool grounded, float impact)
