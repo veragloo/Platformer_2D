@@ -49,6 +49,7 @@ namespace TarodevController
         #region Interface
 
         public Vector2 FrameInput => _frameInput.Move;
+        public Vector2 Velocity => _rb.linearVelocity;
         public event Action<bool, float> GroundedChanged;
         public event Action Jumped;
         public event Action WallJumped;
@@ -805,6 +806,7 @@ namespace TarodevController
         public event Action Jumped;
         public event Action WallJumped;
         public Vector2 FrameInput { get; }
+        public Vector2 Velocity { get; }
         bool IsDashing { get; }
         public bool IsGrabbingWall { get; }
         public bool IsWallSliding { get; }
