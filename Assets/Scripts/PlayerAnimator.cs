@@ -28,12 +28,15 @@ namespace TarodevController
         private IPlayerController _player;
         private ParticleSystem.MinMaxGradient _currentGradient;
         private Rigidbody2D _rigidbody;
+        private bool previousValue;
 
         private void Awake()
         {
             _source = GetComponent<AudioSource>();
             _player = GetComponentInParent<IPlayerController>();
             _rigidbody = GetComponent<Rigidbody2D>();
+
+            previousValue = _anim.GetBool("isLookingBehind");
         }
 
         private void OnEnable()
@@ -69,6 +72,8 @@ namespace TarodevController
             HandleGrabClimbing();
             OnWallSlide();
             OnWallGrab();
+
+            
         }
 
         private bool isFlipped = false; 
@@ -103,13 +108,11 @@ namespace TarodevController
             }
         }
 
-
         private void HandleDashAnimation()
         {
             _anim.SetBool("isDashing", _player.IsDashing);
         }
 
-        private bool isClimbing = false;
         private float climbSpeedThreshold = 0.2f;
         private void HandleGrabClimbing()
         {
@@ -121,27 +124,77 @@ namespace TarodevController
 
             if (_player.IsGrabbingWall)
             {
+                // Détermine si le joueur est en pause verticale (aucune vitesse verticale)
+                bool isVerticalIdle = Mathf.Abs(_rigidbody.linearVelocity.y) < 0.1f; // Le joueur est à l'arrêt verticalement
+                bool isLookingBehind = isVerticalIdle && DetermineLookingBehind(); // Se déplace uniquement si aucune vitesse verticale
+        
                 _anim.SetBool("isGrabbingWall", true);
-
+                _anim.SetBool("isLookingBehind", isLookingBehind);
+        
+                if (isVerticalIdle && !isLookingBehind)
+                {
+                    _anim.SetBool("isWallGrabIdle", true);
+                }
+                else
+                {
+                    _anim.SetBool("isWallGrabIdle", false);
+                }
+        
+                // Gérer la logique d'ascension du mur
                 float climbSpeed = _player.CurrentClimbSpeed;
                 _anim.SetFloat("climbSpeed", climbSpeed);
-
-                if (Mathf.Abs(climbSpeed) > climbSpeedThreshold && !isClimbing)
+        
+                // Vérifie la direction du mouvement vertical
+                bool isMovingUp = _rigidbody.linearVelocity.y > 0; // Se déplace vers le haut
+                bool isMovingDown = _rigidbody.linearVelocity.y < 0; // Se déplace vers le bas
+        
+                // Si le joueur se déplace vers le haut, il grimpe
+                if (isMovingUp && Mathf.Abs(climbSpeed) > climbSpeedThreshold)
                 {
-                    _anim.Play("WallGrabClimb");
-                    isClimbing = true;
+                    _anim.SetBool("isWallClimbing", true);
                 }
-                else if (Mathf.Abs(climbSpeed) <= climbSpeedThreshold && isClimbing)
+                else if (isMovingDown || Mathf.Abs(climbSpeed) <= climbSpeedThreshold)
                 {
-                    _anim.Play("WallGrabIdle");
-                    isClimbing = false;
+                    // Si le joueur se déplace vers le bas ou s'il est en pause verticale, on passe à WallGrabIdle
+                    _anim.SetBool("isWallClimbing", false);
+                    if (!isVerticalIdle && !isLookingBehind)
+                    {
+                        _anim.SetBool("isWallGrabIdle", true); // Si le joueur descend, on utilise WallGrabIdle
+                    }
                 }
             }
             else
             {
+                // Si le joueur n'est pas accroché au mur
+                _anim.SetBool("isWallClimbing", false);
                 _anim.SetBool("isGrabbingWall", false);
-                isClimbing = false;
+                _anim.SetBool("isWallGrabIdle", false);
+                _anim.SetBool("isLookingBehind", false);
             }
+        }
+
+        private float lookBehindBufferTime = 0.05f;
+        private float lookBehindTimer = 0f;
+        private bool DetermineLookingBehind()
+        {
+            bool isWallOnRight = !_sprite.flipX;
+            bool isHorizontalInput = Mathf.Abs(_player.FrameInput.x) > 0.1f && Mathf.Abs(_player.FrameInput.y) < 0.1f;
+
+            if (!isHorizontalInput)
+            {
+                lookBehindTimer = 0f;
+                return false;
+            }
+
+            // Ajoute un buffer pour éviter un changement instantané
+            lookBehindTimer += Time.deltaTime;
+
+            if (lookBehindTimer >= lookBehindBufferTime)
+            {
+                return (isWallOnRight && _player.FrameInput.x < 0) || (!isWallOnRight && _player.FrameInput.x > 0);
+            }
+
+            return false;
         }
 
         private void OnWallSlide()
