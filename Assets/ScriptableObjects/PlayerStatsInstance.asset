@@ -17,25 +17,25 @@ MonoBehaviour:
     m_Bits: 1024
   SnapInput: 1
   VerticalDeadZoneThreshold: 0.3
-  HorizontalDeadZoneThreshold: 0.1
+  HorizontalDeadZoneThreshold: 0.3
   MaxSpeed: 5.5
-  Acceleration: 80
+  Acceleration: 45
   GroundDeceleration: 100
-  AirDeceleration: 300
+  AirDeceleration: 100
   GroundingForce: -2
   GrounderDistance: 0.05
   JumpPower: 10
-  FastFallMultiplier: 4
+  FastFallMultiplier: 2
   MaxFallSpeed: 4.5
   FallAcceleration: 30
   JumpEndEarlyGravityModifier: 3
   CoyoteTime: 0.15
   JumpBuffer: 0.2
-  WallJumpPushForce: 15
+  WallJumpPushForce: 10
   DashSpeed: 15
   DashDuration: 0.3
   DashRechargeTime: 0
-  DashHorizontalBoost: 10
+  DashHorizontalBoost: 5
   ClimbSpeed: 2.3
   ClimbAcceleration: 20
   ClimbDeceleration: 10
