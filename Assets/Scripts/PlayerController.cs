@@ -504,38 +504,57 @@ namespace TarodevController
             }
         }
 
-        
         private void HandleDash()
         {
             if (_isDashing)
             {
                 StartCoroutine(ApplyZeroFriction());
+
+                // Vérification si l'utilisateur donne un input dans la direction opposée
+                Vector2 newDashDirection = Vector2.zero;
+
+                if (_frameInput.Move.x != 0)
+                {
+                    newDashDirection = _frameInput.Move.normalized;
+                }
+                else if (_frameInput.Move.y != 0)
+                {
+                    newDashDirection = new Vector2(0, Mathf.Sign(_frameInput.Move.y));
+                }
+
+                // Condition pour cancel : input opposé à la direction actuelle
+                if (newDashDirection != Vector2.zero && Vector2.Dot(newDashDirection, _dashDirection) < 0)
+                {
+                    CancelDash(); 
+                    return; 
+                }
+
                 // Mise à jour du temps et du progrès du dash
                 dashProgress += Time.fixedDeltaTime / _stats.DashDuration;
                 _dashTimeRemaining -= Time.fixedDeltaTime;
-        
+
                 // Application de la décélération progressive via une courbe
                 float dashSpeedModifier = dashDecelerationCurve.Evaluate(dashProgress);
                 _frameVelocity = _dashDirection * _stats.DashSpeed * dashSpeedModifier;
-        
-                _rb.gravityScale = 0.3f; 
-        
+
+                _rb.gravityScale = 0.3f;
+
                 // Si le temps de dash est écoulé, on arrête le dash
                 if (_dashTimeRemaining <= 0)
                 {
                     _isDashing = false;
                     _frameVelocity = Vector2.zero; 
                     _rb.gravityScale = 1f; 
-                    _grabCooldownRemaining = _grabCooldownTime; 
+                    _grabCooldownRemaining = _grabCooldownTime;
                 }
             }
-        
+
             // Recharge du dash au contact du sol
             if (_grounded && !_isDashing)
             {
                 _canDash = true;
             }
-        
+
             // Si le délai du grab est écoulé, on réactive le grab
             if (_grabCooldownRemaining > 0)
             {
@@ -546,7 +565,15 @@ namespace TarodevController
                 _canGrab = true;
             }
         }
-        
+
+        private void CancelDash()
+        {
+            _isDashing = false;
+            _frameVelocity = Vector2.zero; 
+            _rb.gravityScale = 1f; 
+            _grabCooldownRemaining = _grabCooldownTime; 
+        }
+
         #endregion
 
 

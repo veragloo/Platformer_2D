@@ -33,7 +33,7 @@ MonoBehaviour:
   JumpBuffer: 0.2
   WallJumpPushForce: 10
   DashSpeed: 15
-  DashDuration: 0.3
+  DashDuration: 0.32
   DashRechargeTime: 0
   DashHorizontalBoost: 5
   ClimbSpeed: 2.3
