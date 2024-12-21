@@ -291,7 +291,7 @@ namespace TarodevController
             }
 
             // Determine if sliding is active
-            isWallSliding = !_isGrabbingWall && !_grounded && _rb.linearVelocity.y < 0 && isMovingTowardsWall;
+            isWallSliding = !_isDashing && !_isGrabbingWall && !_grounded && _rb.linearVelocity.y < 0 && isMovingTowardsWall;
 
             // Set animation state
             _anim.SetBool("isWallSliding", isWallSliding);
@@ -601,7 +601,7 @@ namespace TarodevController
             isWallAbove = isTouchingWallAboveLeft || isTouchingWallAboveRight;
         
             // Si le joueur appuie sur "Grab" et est proche d'un mur
-            if (_frameInput.GrabHeld && isWallAbove)
+            if (_frameInput.GrabHeld && isWallAbove && !_isDashing)
             {
                 // Vérifie si le joueur regarde dans la bonne direction
                 bool canGrab = false;
