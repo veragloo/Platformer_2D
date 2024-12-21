@@ -108,8 +108,24 @@ namespace TarodevController
             }
         }
 
+        private float _previousDirectionX = 0f;
+        private float _previousDirectionY = 0f;
         private void HandleDashAnimation()
         {
+            // On récupère les directions de déplacement
+            float directionX = _player.FrameInput.x; // -1 (gauche), 0 (neutre), 1 (droite)
+            float directionY = _player.FrameInput.y; // -1 (bas), 0 (neutre), 1 (haut)
+
+            // Si les directions ont changé, on met à jour les paramètres d'animation
+            if (directionX != _previousDirectionX || directionY != _previousDirectionY)
+            {
+                _anim.SetFloat("DirectionX", directionX);
+                _anim.SetFloat("DirectionY", directionY);
+
+                _previousDirectionX = directionX;
+                _previousDirectionY = directionY;
+            }
+
             _anim.SetBool("isDashing", _player.IsDashing);
         }
 
