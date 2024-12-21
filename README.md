@@ -10,12 +10,6 @@ The project is currently in the prototyping phase, with a strong focus on smooth
 
 This game aims to combine intuitive and engaging gameplay with an emotionally rich experience. It draws inspiration from *Metroidvania* games and classic platformers, while aiming to explore a deeper narrative. The goal is to offer the player an introspective journey filled with challenges and discoveries.
 
-The project is designed to be modular and flexible, with ambitious goals for future stages such as:
-- Puzzle mechanics
-- Level design improvement
-- Animation and transition optimization
-- Creating an immersive and cohesive soundscape
-
 ## Current Focus
 
 At this stage, the focus is on developing the core gameplay mechanics, with particular attention to:
