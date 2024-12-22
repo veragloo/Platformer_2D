@@ -291,7 +291,7 @@ namespace TarodevController
             }
 
             // Determine if sliding is active
-            isWallSliding = !_isGrabbingWall && !_grounded && _rb.linearVelocity.y < 0 && isMovingTowardsWall;
+            isWallSliding = !_isDashing && !_isGrabbingWall && !_grounded && _rb.linearVelocity.y < 0 && isMovingTowardsWall;
 
             // Set animation state
             _anim.SetBool("isWallSliding", isWallSliding);
@@ -457,17 +457,16 @@ namespace TarodevController
         #endregion
 
         #region Dash
-
+        
         private bool _canDash = true;
         private bool _isDashing = false;
         private float _dashTimeRemaining;
         private Vector2 _dashDirection;
-        private bool _canGrab = true; 
-        private float _grabCooldownTime = 0.2f; 
+        private bool _canGrab = true;
+        private float _grabCooldownTime = 0.2f;
         private float _grabCooldownRemaining = 0f;
         private float dashProgress;
         [SerializeField] private AnimationCurve dashDecelerationCurve = AnimationCurve.EaseInOut(0, 1, 1, 0);
-
         
         private void StartDash()
         {
@@ -476,40 +475,50 @@ namespace TarodevController
             // Désactivation forcée du grab
             if (_isGrabbingWall)
             {
-                _isGrabbingWall = false; 
-                _frameVelocity = Vector2.zero; 
-                _rb.gravityScale = 1f; 
+                _isGrabbingWall = false;
+                _frameVelocity = Vector2.zero;
+                _rb.gravityScale = 1f;
             }
         
-            _canGrab = false; 
-            _grabCooldownRemaining = _grabCooldownTime; 
+            _canGrab = false;
+            _grabCooldownRemaining = _grabCooldownTime;
         
             _isDashing = true;
             _canDash = false;
             _dashTimeRemaining = _stats.DashDuration;
             dashProgress = 0f;
         
-            // Calculer la direction du dash
+            // Calculer la direction du dash (horizontal uniquement)
             if (_frameInput.Move.x != 0)
             {
-                _dashDirection = _frameInput.Move.normalized;
-            }
-            else if (_frameInput.Move.y != 0)
-            {
-                _dashDirection = new Vector2(0, Mathf.Sign(_frameInput.Move.y));
+                _dashDirection = new Vector2(Mathf.Sign(_frameInput.Move.x), 0); // Gauche ou droite
             }
             else
             {
+                // Si aucune entrée horizontale, on choisit la direction par défaut (orientation du sprite)
                 _dashDirection = _spriteRenderer.flipX ? Vector2.left : Vector2.right;
             }
         }
-
         
         private void HandleDash()
         {
             if (_isDashing)
             {
                 StartCoroutine(ApplyZeroFriction());
+        
+                // Vérification si l'utilisateur donne un input dans la direction opposée
+                if (_frameInput.Move.x != 0)
+                {
+                    Vector2 newDashDirection = new Vector2(Mathf.Sign(_frameInput.Move.x), 0);
+        
+                    // Condition pour cancel : input opposé à la direction actuelle
+                    if (Vector2.Dot(newDashDirection, _dashDirection) < 0)
+                    {
+                        CancelDash();
+                        return;
+                    }
+                }
+        
                 // Mise à jour du temps et du progrès du dash
                 dashProgress += Time.fixedDeltaTime / _stats.DashDuration;
                 _dashTimeRemaining -= Time.fixedDeltaTime;
@@ -518,15 +527,15 @@ namespace TarodevController
                 float dashSpeedModifier = dashDecelerationCurve.Evaluate(dashProgress);
                 _frameVelocity = _dashDirection * _stats.DashSpeed * dashSpeedModifier;
         
-                _rb.gravityScale = 0.3f; 
+                _rb.gravityScale = 0.3f;
         
                 // Si le temps de dash est écoulé, on arrête le dash
                 if (_dashTimeRemaining <= 0)
                 {
                     _isDashing = false;
-                    _frameVelocity = Vector2.zero; 
-                    _rb.gravityScale = 1f; 
-                    _grabCooldownRemaining = _grabCooldownTime; 
+                    _frameVelocity = Vector2.zero;
+                    _rb.gravityScale = 1f;
+                    _grabCooldownRemaining = _grabCooldownTime;
                 }
             }
         
@@ -547,7 +556,16 @@ namespace TarodevController
             }
         }
         
+        private void CancelDash()
+        {
+            _isDashing = false;
+            _frameVelocity = Vector2.zero;
+            _rb.gravityScale = 1f;
+            _grabCooldownRemaining = _grabCooldownTime;
+        }
+        
         #endregion
+
 
 
         #region Grab
@@ -574,7 +592,7 @@ namespace TarodevController
             isWallAbove = isTouchingWallAboveLeft || isTouchingWallAboveRight;
         
             // Si le joueur appuie sur "Grab" et est proche d'un mur
-            if (_frameInput.GrabHeld && isWallAbove)
+            if (_frameInput.GrabHeld && isWallAbove && !_isDashing)
             {
                 // Vérifie si le joueur regarde dans la bonne direction
                 bool canGrab = false;
