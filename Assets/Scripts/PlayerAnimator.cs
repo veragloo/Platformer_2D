@@ -108,47 +108,10 @@ namespace TarodevController
             }
         }
 
-        private float _previousDirectionX = 0f;
-        private float _previousDirectionY = 0f;
-        private bool _canDetectDirection = true; 
-        private float _dashDetectionCooldownTime = 0.1f; 
-        private float _dashDetectionCooldownRemaining = 0f;
-
         private void HandleDashAnimation()
         {
-            // Mise à jour du cooldown
-            if (!_canDetectDirection)
-            {
-                _dashDetectionCooldownRemaining -= Time.deltaTime;
-                if (_dashDetectionCooldownRemaining <= 0f)
-                {
-                    _canDetectDirection = true; 
-                }
-            }
-
-            if (_player.IsDashing)
-            {
-                _canDetectDirection = false;
-                _dashDetectionCooldownRemaining = _dashDetectionCooldownTime;
-            }
-
-            // On récupère les directions de déplacement
-            float directionX = _player.FrameInput.x; // -1 (gauche), 0 (neutre), 1 (droite)
-            float directionY = _player.FrameInput.y; // -1 (bas), 0 (neutre), 1 (haut)
-
-            // Si la détection est active, vérifier les changements de direction
-            if (_canDetectDirection && (directionX != _previousDirectionX || directionY != _previousDirectionY))
-            {
-                _anim.SetFloat("DirectionX", directionX);
-                _anim.SetFloat("DirectionY", directionY);
-
-                _previousDirectionX = directionX;
-                _previousDirectionY = directionY;
-            }
-
             _anim.SetBool("isDashing", _player.IsDashing);
         }
-
 
         private float climbSpeedThreshold = 0.2f;
         private void HandleGrabClimbing()

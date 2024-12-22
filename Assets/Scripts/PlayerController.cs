@@ -457,17 +457,16 @@ namespace TarodevController
         #endregion
 
         #region Dash
-
+        
         private bool _canDash = true;
         private bool _isDashing = false;
         private float _dashTimeRemaining;
         private Vector2 _dashDirection;
-        private bool _canGrab = true; 
-        private float _grabCooldownTime = 0.2f; 
+        private bool _canGrab = true;
+        private float _grabCooldownTime = 0.2f;
         private float _grabCooldownRemaining = 0f;
         private float dashProgress;
         [SerializeField] private AnimationCurve dashDecelerationCurve = AnimationCurve.EaseInOut(0, 1, 1, 0);
-
         
         private void StartDash()
         {
@@ -476,85 +475,76 @@ namespace TarodevController
             // Désactivation forcée du grab
             if (_isGrabbingWall)
             {
-                _isGrabbingWall = false; 
-                _frameVelocity = Vector2.zero; 
-                _rb.gravityScale = 1f; 
+                _isGrabbingWall = false;
+                _frameVelocity = Vector2.zero;
+                _rb.gravityScale = 1f;
             }
         
-            _canGrab = false; 
-            _grabCooldownRemaining = _grabCooldownTime; 
+            _canGrab = false;
+            _grabCooldownRemaining = _grabCooldownTime;
         
             _isDashing = true;
             _canDash = false;
             _dashTimeRemaining = _stats.DashDuration;
             dashProgress = 0f;
         
-            // Calculer la direction du dash
+            // Calculer la direction du dash (horizontal uniquement)
             if (_frameInput.Move.x != 0)
             {
-                _dashDirection = _frameInput.Move.normalized;
-            }
-            else if (_frameInput.Move.y != 0)
-            {
-                _dashDirection = new Vector2(0, Mathf.Sign(_frameInput.Move.y));
+                _dashDirection = new Vector2(Mathf.Sign(_frameInput.Move.x), 0); // Gauche ou droite
             }
             else
             {
+                // Si aucune entrée horizontale, on choisit la direction par défaut (orientation du sprite)
                 _dashDirection = _spriteRenderer.flipX ? Vector2.left : Vector2.right;
             }
         }
-
+        
         private void HandleDash()
         {
             if (_isDashing)
             {
                 StartCoroutine(ApplyZeroFriction());
-
+        
                 // Vérification si l'utilisateur donne un input dans la direction opposée
-                Vector2 newDashDirection = Vector2.zero;
-
                 if (_frameInput.Move.x != 0)
                 {
-                    newDashDirection = _frameInput.Move.normalized;
+                    Vector2 newDashDirection = new Vector2(Mathf.Sign(_frameInput.Move.x), 0);
+        
+                    // Condition pour cancel : input opposé à la direction actuelle
+                    if (Vector2.Dot(newDashDirection, _dashDirection) < 0)
+                    {
+                        CancelDash();
+                        return;
+                    }
                 }
-                else if (_frameInput.Move.y != 0)
-                {
-                    newDashDirection = new Vector2(0, Mathf.Sign(_frameInput.Move.y));
-                }
-
-                // Condition pour cancel : input opposé à la direction actuelle
-                if (newDashDirection != Vector2.zero && Vector2.Dot(newDashDirection, _dashDirection) < 0)
-                {
-                    CancelDash(); 
-                    return; 
-                }
-
+        
                 // Mise à jour du temps et du progrès du dash
                 dashProgress += Time.fixedDeltaTime / _stats.DashDuration;
                 _dashTimeRemaining -= Time.fixedDeltaTime;
-
+        
                 // Application de la décélération progressive via une courbe
                 float dashSpeedModifier = dashDecelerationCurve.Evaluate(dashProgress);
                 _frameVelocity = _dashDirection * _stats.DashSpeed * dashSpeedModifier;
-
+        
                 _rb.gravityScale = 0.3f;
-
+        
                 // Si le temps de dash est écoulé, on arrête le dash
                 if (_dashTimeRemaining <= 0)
                 {
                     _isDashing = false;
-                    _frameVelocity = Vector2.zero; 
-                    _rb.gravityScale = 1f; 
+                    _frameVelocity = Vector2.zero;
+                    _rb.gravityScale = 1f;
                     _grabCooldownRemaining = _grabCooldownTime;
                 }
             }
-
+        
             // Recharge du dash au contact du sol
             if (_grounded && !_isDashing)
             {
                 _canDash = true;
             }
-
+        
             // Si le délai du grab est écoulé, on réactive le grab
             if (_grabCooldownRemaining > 0)
             {
@@ -565,16 +555,17 @@ namespace TarodevController
                 _canGrab = true;
             }
         }
-
+        
         private void CancelDash()
         {
             _isDashing = false;
-            _frameVelocity = Vector2.zero; 
-            _rb.gravityScale = 1f; 
-            _grabCooldownRemaining = _grabCooldownTime; 
+            _frameVelocity = Vector2.zero;
+            _rb.gravityScale = 1f;
+            _grabCooldownRemaining = _grabCooldownTime;
         }
-
+        
         #endregion
+
 
 
         #region Grab
