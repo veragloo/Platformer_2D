@@ -20,6 +20,7 @@ namespace TarodevController
         [SerializeField] private ParticleSystem _wallSlideParticles;
         [SerializeField] private ParticleSystem _wallGrabParticles;
         [SerializeField] private ParticleSystem _pushParticles;
+        [SerializeField] private ParticleSystem _dashParticles;
 
         [Header("Audio Clips")]
         [SerializeField] private AudioClip[] _footsteps;
@@ -111,6 +112,18 @@ namespace TarodevController
         private void HandleDashAnimation()
         {
             _anim.SetBool("isDashing", _player.IsDashing);
+        }
+
+        private void OnDash()
+        {
+            if (_player.IsDashing)
+            {
+                _dashParticles.Play();
+            }
+            else
+            {
+                _dashParticles.Stop();
+            }
         }
 
         private float climbSpeedThreshold = 0.2f;
