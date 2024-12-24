@@ -9,6 +9,7 @@
 
 # Ignore the folder which contains assets that cannot be publicly distributed. 
 Assets/Private/
+Assets/Samples/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data

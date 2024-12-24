@@ -77,7 +77,7 @@ namespace TarodevController
             
         }
 
-        private bool isFlipped = false; 
+        public bool isFlipped = false; 
         private void HandleSpriteFlip()
         {
             if (_player.FrameInput.x != 0 && !_player.IsGrabbingWall && !_player.canClimb)
