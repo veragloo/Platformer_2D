@@ -22,6 +22,8 @@ namespace TarodevController
         private Vector2 _frameVelocity;
         private bool _cachedQueryStartInColliders;
 
+        public static event Action<float> OnVerticalVelocityChanged;
+
         [SerializeField] private Transform wallCheck;
         [SerializeField] private float wallCheckDistance;
         [SerializeField] private LayerMask WhatIsGround;
@@ -114,6 +116,9 @@ namespace TarodevController
                 {
                     _time += Time.deltaTime;
                     GatherInput();
+
+                    float verticalVelocity = _rb.linearVelocity.y;
+                    OnVerticalVelocityChanged?.Invoke(verticalVelocity);
 
                     // Don't touch this unless you hate yourself.
                     HandleWallGrab();
