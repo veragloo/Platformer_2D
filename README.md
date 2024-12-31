@@ -15,10 +15,7 @@ This game aims to combine intuitive and engaging gameplay with an emotionally ri
 At this stage, the focus is on developing the core gameplay mechanics, with particular attention to:
 
 - Camera System
-- Character movement
-- Establishing a solid foundation for future gameplay features
-
-The aim is to create a robust foundation that can later be enriched with new mechanics, characters, and varied environments.
+- Tilemap System
 
 ## Technologies Used
 
