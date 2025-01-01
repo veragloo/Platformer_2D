@@ -15,7 +15,3 @@ Some assets used in this project are provided by third parties and are subject t
 - **Player Sprite**: The character sprite used for the player (initial sprite and animations) is provided by **Clembod** and is subject to the terms of their original license. Even if the sprite has been modified, **it still falls under the original license and cannot be redistributed or used outside of this project**.
 
 For more information on the specific licenses of these assets, please refer to the original asset sources or contact the project owner.
-
-## Attribution
-
-Attribution is not required but appreciated if you choose to use any part of this project publicly.
