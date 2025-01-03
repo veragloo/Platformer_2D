@@ -58,17 +58,18 @@ namespace TarodevController
         {
             if (_player == null) return;
 
-            float verticalSpeed = _rigidbody.linearVelocity.y; // Vitesse verticale
+            float verticalSpeed = _rigidbody.linearVelocity.y; 
             _anim.SetFloat("VerticalSpeed", verticalSpeed);
 
             _anim.SetBool("Grounded", _player.IsGrounded);
 
             _anim.SetBool("canClimb", _player.canClimb);
 
+            // HandleCharacterTilt(); BUG WITH WALLGRAB REF z32 Origin #3/z#3
+            
             DetectGroundColor();
             HandleSpriteFlip();
             HandleIdleSpeed();
-            HandleCharacterTilt();
             HandleDashAnimation();
             HandleGrabClimbing();
             OnWallSlide();
@@ -99,7 +100,7 @@ namespace TarodevController
         {
             if (_player.IsGrabbingWall)
             {
-                // Réinitialiser l'inclinaison lorsque le joueur s'accroche au mur
+                // Réinitialiser l'inclinaison 
                 _anim.transform.up = Vector2.up;
             }
             else
