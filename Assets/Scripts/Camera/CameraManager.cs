@@ -27,8 +27,6 @@ namespace TarodevController
 
         private void Awake()
         {
-
-            Debug.Log("Hello");
             if (instance == null)
             {
                 instance = this;
@@ -52,13 +50,11 @@ namespace TarodevController
 
         private void OnEnable()
         {
-            Debug.Log("enable");
             PlayerController.OnVerticalVelocityChanged += HandleVerticalVelocityChanged;
         }
         
         private void OnDisable()
         {
-            Debug.Log("disable");
             PlayerController.OnVerticalVelocityChanged -= HandleVerticalVelocityChanged;
         }
         

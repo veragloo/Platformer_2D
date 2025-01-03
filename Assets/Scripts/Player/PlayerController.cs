@@ -37,6 +37,7 @@ namespace TarodevController
         
         [SerializeField] private GameObject leftWallDetector; 
         [SerializeField] private GameObject rightWallDetector; 
+        
         [SerializeField] private Vector2 offset1Right; 
         [SerializeField] private Vector2 offset2Right; 
         [SerializeField] private Vector2 offset1Left;  
@@ -175,7 +176,6 @@ namespace TarodevController
 
         private void FixedUpdate()
         {
-            // Fix this later (or never). REF z8#2/Origin#1
             if (canClimb)
             {
                 _rb.linearVelocity = Vector2.zero; 
@@ -588,6 +588,11 @@ namespace TarodevController
             // On détermine la direction du mur
             RaycastHit2D hitLeft = Physics2D.Raycast(new Vector2(_col.bounds.min.x, _col.bounds.center.y), Vector2.left, _stats.GrounderDistance, ~_stats.PlayerLayer);
             RaycastHit2D hitRight = Physics2D.Raycast(new Vector2(_col.bounds.max.x, _col.bounds.center.y), Vector2.right, _stats.GrounderDistance, ~_stats.PlayerLayer);
+            
+            // FIX FOR REF z24 Origin #3/z#3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            // LayerMask mask = LayerMask.GetMask("Ground", "Wall");
+            // RaycastHit2D hitLeft = Physics2D.Raycast(new Vector2(_col.bounds.min.x, _col.bounds.center.y), Vector2.left, _stats.GrounderDistance, mask);
+            // RaycastHit2D hitRight = Physics2D.Raycast(new Vector2(_col.bounds.max.x, _col.bounds.center.y), Vector2.right, _stats.GrounderDistance, mask);
         
             bool isTouchingLeftWall = hitLeft.collider != null;
             bool isTouchingRightWall = hitRight.collider != null;
@@ -681,34 +686,34 @@ namespace TarodevController
 
         private void CheckForLedge()
         {
-            // Vérification de la détection de ledge à droite
-            if (ledgeDetected && canGrabLedge)
+            if ((ledgeDetected || ledgeDetectedLeft) && canGrabLedge)
             {
                 canGrabLedge = false;
 
                 Vector2 ledgePosition = GetComponentInChildren<LedgeDetection>().transform.position;
+                if (ledgeDetected)
+                {
+                    climbBegunPosition = ledgePosition + offset1Right;
+                    climbOverPosition = ledgePosition + offset2Right;
+                }
+                else if (ledgeDetectedLeft)
+                {
+                    climbBegunPosition = ledgePosition + offset1Left;
+                    climbOverPosition = ledgePosition + offset2Left;
+                }
 
-                climbBegunPosition = ledgePosition + offset1Right;
-                climbOverPosition = ledgePosition + offset2Right;
-
-                canClimb = true;
-            }
-            // Vérification de la détection de ledge à gauche
-            else if (ledgeDetectedLeft && canGrabLedge)
-            {
-                canGrabLedge = false;
-
-                Vector2 ledgePosition = GetComponentInChildren<LedgeDetection>().transform.position;
-
-                climbBegunPosition = ledgePosition + offset1Left;
-                climbOverPosition = ledgePosition + offset2Left;
-
-                canClimb = true;
-            }
-
-            // on place le joueur à la position de début de l'escalade
-            if (canClimb)
+                // Désactive la physique
+                _rb.bodyType = RigidbodyType2D.Kinematic; 
+                
                 transform.position = climbBegunPosition;
+                Invoke("ReactivatePhysics", 0.2f);
+                canClimb = true;
+            }
+        }
+
+        private void ReactivatePhysics()
+        {
+            _rb.bodyType = RigidbodyType2D.Dynamic;
         }
 
         private void ResetLedgeDetection()
@@ -723,13 +728,14 @@ namespace TarodevController
             canClimb = false;
             transform.position = climbOverPosition;
             ResetLedgeDetection();
-            Invoke("AllowLedgeGrab", .1f);
+            Invoke("AllowLedgeGrab", .2f);
         }
 
         private void AllowLedgeGrab() => canGrabLedge = true;
         
         #endregion
 
+        
         #region Horizontal
 
         private void HandleDirection()
@@ -802,6 +808,9 @@ namespace TarodevController
             Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance * facingDirection,
                                                            wallCheck.position.y,
                                                            wallCheck.position.z));
+
+            Debug.DrawLine(transform.position, climbBegunPosition, Color.red, 1f);
+            Debug.DrawLine(transform.position, climbOverPosition, Color.green, 1f);
         }
 
 #if UNITY_EDITOR
