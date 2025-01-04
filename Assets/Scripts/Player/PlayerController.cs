@@ -488,17 +488,16 @@ namespace TarodevController
             }
 
             _canGrab = false;
-            
-
             _isDashing = true;
             _canDash = false;
             _dashTimeRemaining = _stats.DashDuration;
             dashProgress = 0f;
 
-            // Calculer la direction du dash (horizontal uniquement)
-            if (_frameInput.Move.x != 0)
+            // Calculer la direction du dash (en filtrant l'entrée verticale)
+            if (Mathf.Abs(_frameInput.Move.x) > Mathf.Abs(_frameInput.Move.y))
             {
-                _dashDirection = new Vector2(Mathf.Sign(_frameInput.Move.x), 0); // Gauche ou droite
+                // Si le mouvement horizontal est plus important que le vertical, on prend uniquement l'axe horizontal
+                _dashDirection = new Vector2(Mathf.Sign(_frameInput.Move.x), 0);
             }
             else
             {
@@ -513,7 +512,7 @@ namespace TarodevController
             {
                 StartCoroutine(ApplyZeroFriction());
 
-                // Vérification si l'utilisateur donne un input dans la direction opposée
+                // Vérification si input > direction opposée (en ignorant la composante verticale)
                 if (_frameInput.Move.x != 0)
                 {
                     Vector2 newDashDirection = new Vector2(Mathf.Sign(_frameInput.Move.x), 0);
