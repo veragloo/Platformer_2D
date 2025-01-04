@@ -257,7 +257,7 @@ namespace TarodevController
 
             Physics2D.queriesStartInColliders = _cachedQueryStartInColliders;
         }
-
+ 
         private void HandleWallSliding()
         {
             // Wall detection (Slide)
@@ -267,19 +267,19 @@ namespace TarodevController
             // Nouvelle condition d'input vers le mur
             bool isMovingTowardsWall = false;
 
+            bool isFacingRight = !_spriteRenderer.flipX;
+
             // Lire l'input horizontal avec le Input System
             float horizontalInput = moveAction.ReadValue<Vector2>().x;  
 
             // Vérifie si l'input est dirigé vers le mur détecté
-            if (isWallDetected && horizontalInput > 0)
+            if (isWallDetected && horizontalInput > 0 && isFacingRight)
             {
                 isMovingTowardsWall = true;
-                
             }
-            else if (isWallDetectedLeft && horizontalInput < 0)
+            else if (isWallDetectedLeft && horizontalInput < 0 && !isFacingRight)
             {
                 isMovingTowardsWall = true;
-                
             }
 
             // Appliquer le matériau en fonction de la direction, sauf si zeroFriction est forcé
@@ -311,15 +311,17 @@ namespace TarodevController
             // condition d'input vers le mur
             bool isMovingTowardsPushable = false;
 
+            bool isFacingRight = !_spriteRenderer.flipX;
+
             // Lire l'input horizontal avec le Input System
             float horizontalInput = moveAction.ReadValue<Vector2>().x;  
 
             // Vérifie si l'input est dirigé vers le mur détecté
-            if (isObjectDetected && horizontalInput > 0)
+            if (isObjectDetected && horizontalInput > 0 && isFacingRight)
             {
                 isMovingTowardsPushable = true;
             }
-            else if (isObjectDetectedLeft && horizontalInput < 0)
+            else if (isObjectDetectedLeft && horizontalInput < 0 && !isFacingRight)
             {
                 isMovingTowardsPushable = true;
             }
@@ -476,23 +478,23 @@ namespace TarodevController
         private void StartDash()
         {
             if (_isDashing || !_canDash) return;
-        
+
             // Désactivation forcée du grab
             if (_isGrabbingWall)
             {
-                _isGrabbingWall = false;
+                _isGrabbingWall = false; 
+                _currentClimbSpeed = 0; 
                 _frameVelocity = Vector2.zero;
-                _rb.gravityScale = 1f;
             }
-        
+
             _canGrab = false;
-            _grabCooldownRemaining = _grabCooldownTime;
-        
+            
+
             _isDashing = true;
             _canDash = false;
             _dashTimeRemaining = _stats.DashDuration;
             dashProgress = 0f;
-        
+
             // Calculer la direction du dash (horizontal uniquement)
             if (_frameInput.Move.x != 0)
             {
@@ -504,18 +506,18 @@ namespace TarodevController
                 _dashDirection = _spriteRenderer.flipX ? Vector2.left : Vector2.right;
             }
         }
-        
+
         private void HandleDash()
         {
             if (_isDashing)
             {
                 StartCoroutine(ApplyZeroFriction());
-        
+
                 // Vérification si l'utilisateur donne un input dans la direction opposée
                 if (_frameInput.Move.x != 0)
                 {
                     Vector2 newDashDirection = new Vector2(Mathf.Sign(_frameInput.Move.x), 0);
-        
+
                     // Condition pour cancel : input opposé à la direction actuelle
                     if (Vector2.Dot(newDashDirection, _dashDirection) < 0)
                     {
@@ -523,17 +525,17 @@ namespace TarodevController
                         return;
                     }
                 }
-        
+
                 // Mise à jour du temps et du progrès du dash
                 dashProgress += Time.fixedDeltaTime / _stats.DashDuration;
                 _dashTimeRemaining -= Time.fixedDeltaTime;
-        
+
                 // Application de la décélération progressive via une courbe
                 float dashSpeedModifier = dashDecelerationCurve.Evaluate(dashProgress);
                 _frameVelocity = _dashDirection * _stats.DashSpeed * dashSpeedModifier;
-        
+
                 _rb.gravityScale = 0.3f;
-        
+
                 // Si le temps de dash est écoulé, on arrête le dash
                 if (_dashTimeRemaining <= 0)
                 {
@@ -543,13 +545,13 @@ namespace TarodevController
                     _grabCooldownRemaining = _grabCooldownTime;
                 }
             }
-        
+
             // Recharge du dash au contact du sol
             if (_grounded && !_isDashing)
             {
                 _canDash = true;
             }
-        
+
             // Si le délai du grab est écoulé, on réactive le grab
             if (_grabCooldownRemaining > 0)
             {
@@ -560,7 +562,7 @@ namespace TarodevController
                 _canGrab = true;
             }
         }
-        
+
         private void CancelDash()
         {
             _isDashing = false;
@@ -583,12 +585,12 @@ namespace TarodevController
         
         private void HandleWallGrab()
         {
-            if (!_canGrab) return; 
+            if (!_canGrab) return;
         
             // On détermine la direction du mur
             RaycastHit2D hitLeft = Physics2D.Raycast(new Vector2(_col.bounds.min.x, _col.bounds.center.y), Vector2.left, _stats.GrounderDistance, ~_stats.PlayerLayer);
             RaycastHit2D hitRight = Physics2D.Raycast(new Vector2(_col.bounds.max.x, _col.bounds.center.y), Vector2.right, _stats.GrounderDistance, ~_stats.PlayerLayer);
-            
+
             // FIX FOR REF z24 Origin #3/z#3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             // LayerMask mask = LayerMask.GetMask("Ground", "Wall");
             // RaycastHit2D hitLeft = Physics2D.Raycast(new Vector2(_col.bounds.min.x, _col.bounds.center.y), Vector2.left, _stats.GrounderDistance, mask);
@@ -596,84 +598,86 @@ namespace TarodevController
         
             bool isTouchingLeftWall = hitLeft.collider != null;
             bool isTouchingRightWall = hitRight.collider != null;
-
+        
             bool isTouchingWallAboveLeft = leftWallDetector.GetComponent<Collider2D>().IsTouchingLayers(LayerMask.GetMask("Ground"));
             bool isTouchingWallAboveRight = rightWallDetector.GetComponent<Collider2D>().IsTouchingLayers(LayerMask.GetMask("Ground"));
             isWallAbove = isTouchingWallAboveLeft || isTouchingWallAboveRight;
         
-            // Si le joueur appuie sur "Grab" et est proche d'un mur
-            if (_frameInput.GrabHeld && isWallAbove && !_isDashing)
+            // Si l'utilisateur maintient "Grab" et peut grab
+            if (_frameInput.GrabHeld && isWallAbove)
             {
-                // Vérifie si le joueur regarde dans la bonne direction
                 bool canGrab = false;
         
-                // Si le joueur regarde à droite et est proche d'un mur à droite
+                // Vérifie si un mur est présent dans la direction où le joueur regarde
                 if (!_spriteRenderer.flipX && isTouchingRightWall)
                 {
                     canGrab = true;
                 }
-                // Si le joueur regarde à gauche et est proche d'un mur à gauche
                 else if (_spriteRenderer.flipX && isTouchingLeftWall)
                 {
                     canGrab = true;
                 }
         
-                if (canGrab && !_isGrabbingWall)
+                // Si le joueur peut grab
+                if (canGrab)
                 {
-                    _isGrabbingWall = true;  
-                    _frameVelocity = Vector2.zero; 
-                    _currentClimbSpeed = 0;  
+                    // Annule le dash actif, s'il y en a un
+                    if (_isDashing)
+                    {
+                        CancelDash(); 
+                    }
+        
+                    // Active le grab 
+                    if (!_isGrabbingWall)
+                    {
+                        _isGrabbingWall = true;
+                        _frameVelocity = Vector2.zero;
+                        _currentClimbSpeed = 0;
+                    }
                 }
             }
         
+            // Logique pour maintenir ou annuler le grab
             if (_isGrabbingWall)
             {
-                // Si le joueur n'est plus en contact avec le mur, on le fait décrocher
                 if (!(isTouchingLeftWall || isTouchingRightWall))
                 {
-                    _isGrabbingWall = false;  
-                    _frameVelocity.y = 0;  
+                    _isGrabbingWall = false;
+                    _frameVelocity.y = 0;
                 }
                 else
                 {
-                    // Si le joueur maintient la touche "Grab", il peut se déplacer verticalement
-                    float targetSpeed = _frameInput.Move.y * _stats.ClimbSpeed; 
+                    float targetSpeed = _frameInput.Move.y * _stats.ClimbSpeed;
         
                     if (targetSpeed != 0)
                     {
-                        // Accélérer ou décélérer en fonction de la direction de l'entrée verticale
-                        _currentClimbSpeed = Mathf.MoveTowards(_currentClimbSpeed, targetSpeed, _stats.ClimbAcceleration * Time.fixedDeltaTime);  
+                        _currentClimbSpeed = Mathf.MoveTowards(_currentClimbSpeed, targetSpeed, _stats.ClimbAcceleration * Time.fixedDeltaTime);
                     }
                     else
                     {
-                        // Si aucune entrée, on applique la décélération
-                        _currentClimbSpeed = Mathf.MoveTowards(_currentClimbSpeed, 0, _stats.ClimbDeceleration * Time.fixedDeltaTime);  
+                        _currentClimbSpeed = Mathf.MoveTowards(_currentClimbSpeed, 0, _stats.ClimbDeceleration * Time.fixedDeltaTime);
                     }
         
-                    // Applique la vitesse calculée au mouvement vertical
                     _frameVelocity.y = _currentClimbSpeed;
                 }
             }
         
-            // Si le joueur relâche la touche Grab, on décroche
+            // Si le joueur relâche "Grab", annule le grab
             if (_isGrabbingWall && !_frameInput.GrabHeld)
             {
-                // Vérifie si l'animation de grimpe (ledge climb) est en cours
                 if (!_anim.GetCurrentAnimatorStateInfo(0).IsName("LedgeClimb"))
                 {
-                    // Si l'animation de grimpe n'est pas en cours, alors on peut relâcher le grab
-                    _isGrabbingWall = false;  
-                    _frameVelocity.y = 0;  
+                    _isGrabbingWall = false;
+                    _frameVelocity.y = 0;
                 }
             }
-
         }
         
         private void HandleWallMovement()
         {
             if (_isGrabbingWall)
             {
-                // Empêche tout mouvement horizontal pendant le grab
+                // Empêche mouvement horizontal
                 _frameVelocity.x = 0;
         
                 _frameVelocity.y = _currentClimbSpeed;  
