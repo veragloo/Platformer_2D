@@ -73,8 +73,11 @@ namespace TarodevController
         public float DashHorizontalBoost = 5f;
         
         [Header("CLIMBING")]
-        [Tooltip("The speed at which the player climbs the wall")]
-        public float ClimbSpeed = 3f;
+        [Tooltip("The speed at which the player climbs up the wall")]
+        public float ClimbSpeedUp = 3f;
+        
+        [Tooltip("The speed at which the player climbs down the wall")]
+        public float ClimbSpeedDown = 2f;
         
         [Tooltip("The acceleration of climbing when the player climbs a wall")]
         public float ClimbAcceleration = 12f;

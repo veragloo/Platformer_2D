@@ -647,8 +647,20 @@ namespace TarodevController
                 }
                 else
                 {
-                    float targetSpeed = _frameInput.Move.y * _stats.ClimbSpeed;
-        
+                    float targetSpeed;
+                    if (_frameInput.Move.y > 0) 
+                    {
+                        targetSpeed = _frameInput.Move.y * _stats.ClimbSpeedUp;
+                    }
+                    else if (_frameInput.Move.y < 0) 
+                    {
+                        targetSpeed = _frameInput.Move.y * _stats.ClimbSpeedDown;
+                    }
+                    else 
+                    {
+                        targetSpeed = 0;
+                    }
+
                     if (targetSpeed != 0)
                     {
                         _currentClimbSpeed = Mathf.MoveTowards(_currentClimbSpeed, targetSpeed, _stats.ClimbAcceleration * Time.fixedDeltaTime);

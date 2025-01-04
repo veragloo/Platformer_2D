@@ -18,7 +18,7 @@ MonoBehaviour:
   SnapInput: 1
   VerticalDeadZoneThreshold: 0.3
   HorizontalDeadZoneThreshold: 0.3
-  MaxSpeed: 5
+  MaxSpeed: 5.5
   Acceleration: 45
   GroundDeceleration: 100
   AirDeceleration: 100
@@ -36,6 +36,7 @@ MonoBehaviour:
   DashDuration: 0.35
   DashRechargeTime: 0
   DashHorizontalBoost: 5
-  ClimbSpeed: 2.3
+  ClimbSpeedUp: 2.5
+  ClimbSpeedDown: 3.5
   ClimbAcceleration: 20
   ClimbDeceleration: 10
