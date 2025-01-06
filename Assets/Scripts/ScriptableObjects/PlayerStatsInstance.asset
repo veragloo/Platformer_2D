@@ -39,4 +39,4 @@ MonoBehaviour:
   ClimbSpeedUp: 2.5
   ClimbSpeedDown: 3.5
   ClimbAcceleration: 20
-  ClimbDeceleration: 10
+  ClimbDeceleration: 20
