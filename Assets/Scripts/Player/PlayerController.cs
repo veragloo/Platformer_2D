@@ -188,7 +188,7 @@ namespace TarodevController
                 ResetLedgeDetection();
             }
 
-            if (_isGrabbingWall && _rb.linearVelocity.y > 0)
+            if (_isGrabbingWall && _frameInput.Move.y > 0)
             {
                CheckForLedge();
             }
@@ -587,13 +587,9 @@ namespace TarodevController
             if (!_canGrab) return;
         
             // On détermine la direction du mur
-            RaycastHit2D hitLeft = Physics2D.Raycast(new Vector2(_col.bounds.min.x, _col.bounds.center.y), Vector2.left, _stats.GrounderDistance, ~_stats.PlayerLayer);
-            RaycastHit2D hitRight = Physics2D.Raycast(new Vector2(_col.bounds.max.x, _col.bounds.center.y), Vector2.right, _stats.GrounderDistance, ~_stats.PlayerLayer);
-
-            // FIX FOR REF z24 Origin #3/z#3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            // LayerMask mask = LayerMask.GetMask("Ground", "Wall");
-            // RaycastHit2D hitLeft = Physics2D.Raycast(new Vector2(_col.bounds.min.x, _col.bounds.center.y), Vector2.left, _stats.GrounderDistance, mask);
-            // RaycastHit2D hitRight = Physics2D.Raycast(new Vector2(_col.bounds.max.x, _col.bounds.center.y), Vector2.right, _stats.GrounderDistance, mask);
+            LayerMask mask = LayerMask.GetMask("Ground");
+            RaycastHit2D hitLeft = Physics2D.Raycast(new Vector2(_col.bounds.min.x, _col.bounds.center.y), Vector2.left, _stats.GrounderDistance, mask);
+            RaycastHit2D hitRight = Physics2D.Raycast(new Vector2(_col.bounds.max.x, _col.bounds.center.y), Vector2.right, _stats.GrounderDistance, mask);
         
             bool isTouchingLeftWall = hitLeft.collider != null;
             bool isTouchingRightWall = hitRight.collider != null;

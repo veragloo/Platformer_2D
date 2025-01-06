@@ -67,7 +67,8 @@ namespace TarodevController
 
             // HandleCharacterTilt(); BUG WITH WALLGRAB REF z32 Origin #3/z#3
             
-            DetectGroundColor();
+            // DetectGroundColor(); A VOIR
+            
             HandleSpriteFlip();
             HandleIdleSpeed();
             HandleDashAnimation();
