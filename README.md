@@ -17,6 +17,8 @@ At this stage, the focus is on developing the core gameplay mechanics, with part
 - Camera System
 - Tilemap System
 
+- Light System Test
+
 ## Technologies Used
 
 - **Unity**: Game engine for development
