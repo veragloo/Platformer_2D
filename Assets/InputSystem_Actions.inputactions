@@ -33,10 +33,19 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "ToggleLantern",
+                    "type": "Button",
+                    "id": "5ce7245f-f7cc-46da-bb40-8c84d2465e37",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "e3ce133a-1003-4354-a0b0-0b33a880c425",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -490,6 +499,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Grab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "110c2aaf-bd6b-45a0-b665-540a4a18e679",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleLantern",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e131d29f-f936-4c0b-a8ef-9dda0a962809",
+                    "path": "<XInputController>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleLantern",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
