@@ -10,8 +10,9 @@ This project is protected under a **proprietary license**, and is not allowed to
 
 ## Asset Acknowledgement
 
-Some assets used in this project are provided by third parties and are subject to their own licenses. These assets cannot be redistributed or used outside of this project without following the specific terms of those licenses.
+Some assets used in this project are provided by third parties and are subject to their own licenses. **These assets cannot be redistributed**. Even if the assets have been modified, they are still subject to the original license and cannot be redistributed.
 
-- **Player Sprite**: The character sprite used for the player (initial sprite and animations) is provided by **Clembod** and is subject to the terms of their original license. Even if the sprite has been modified, **it still falls under the original license and cannot be redistributed or used outside of this project**.
+- Player Sprite: Provided by Clembod. [Original Asset](https://clembod.itch.io/warrior-free-animation-set)
+- Castle Environment: Provided by brullov. [Original Asset](https://brullov.itch.io/2d-platformer-asset-pack-castle-of-despair)
 
-For more information on the specific licenses of these assets, please refer to the original asset sources or contact the project owner.
+For more information on the specific licenses of these assets, please refer to the original asset sources.
