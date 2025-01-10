@@ -1,52 +1,67 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 public class LanternController : MonoBehaviour
 {
-    [SerializeField] private Light2D lanternLight; // La lumière de la lanterne
-    private float baseIntensity = 0.5f; // Intensité de base de la lumière
-    private float baseOuterRadius = 5f; // Rayon extérieur de la lumière
-    private float flickerAmount = 0.2f; // Amplitude du scintillement
-    private float flickerSpeed = 3f; // Vitesse du scintillement
-    private bool isLanternOn = true; // Si la lanterne est allumée ou non
-    private float flickerOffset; // Décalage aléatoire pour éviter que le bruit soit trop fixe
+    private LanternState currentState; 
+    private LanternIdleState idleState;
+    private LanternWeakState weakState;
+
+    [SerializeField] private Light2D lanternLight;
+
+    private void Awake()
+    {
+        // Initialisation des états
+        idleState = new LanternIdleState(this);
+        weakState = new LanternWeakState(this);
+
+        // Définir l'état initial
+        currentState = idleState;
+    }
 
     private void Start()
     {
+        // Si la lumière n'est pas assignée dans l'inspecteur
         if (lanternLight == null)
         {
-            lanternLight = GetComponent<Light2D>(); // Prendre la lumière attachée si pas assignée
+            lanternLight = GetComponent<Light2D>();
         }
 
-        // Initialiser un décalage de bruit aléatoire pour chaque lumière
-        flickerOffset = Random.Range(0f, 100f);
+        // Entrer dans l'état initial
+        currentState.EnterState();
     }
 
     private void Update()
     {
-        if (isLanternOn)
-        {
-            // Appliquer un bruit aléatoire sur l'intensité et le rayon pour un scintillement organique et cohérent
-            float noise = Mathf.PerlinNoise(Time.time * flickerSpeed, flickerOffset); // Perlin noise pour un scintillement fluide
-            float flickerValue = (noise - 0.5f) * flickerAmount; // Le -0.5f rend le bruit centré autour de 0
+        // Appeler l'état actuel
+        currentState.UpdateState();
 
-            // Moduler l'intensité et le rayon en même temps
-            lanternLight.intensity = baseIntensity + flickerValue;
-            lanternLight.pointLightOuterRadius = baseOuterRadius + flickerValue * 0.5f; // Ajuste le rayon proportionnellement
-        }
-        else
+        // Tests : Changer d'état
+        if (Input.GetKeyDown(KeyCode.Alpha1)) 
         {
-            // Si la lanterne est éteinte, on la rend complètement noire et sans rayon
-            lanternLight.intensity = 0f;
-            lanternLight.pointLightOuterRadius = 0f;
+            ChangeState(idleState);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) 
+        {
+            ChangeState(weakState);
         }
     }
 
-    // Fonction pour activer/désactiver la lanterne
-    public void ToggleLantern(bool state)
+    // Méthode pour changer d'état
+    public void ChangeState(LanternState newState)
     {
-        isLanternOn = state;
+        currentState.ExitState(); 
+        currentState = newState; 
+        currentState.EnterState(); 
+    }
+
+    // Méthode pour définir les paramètres
+    public void SetLightParameters(float intensity, float outerRadius)
+    {
+        if (lanternLight != null)
+        {
+            lanternLight.intensity = intensity;
+            lanternLight.pointLightOuterRadius = outerRadius;
+        }
     }
 }
