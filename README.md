@@ -1,39 +1,38 @@
-# 2D Platformer Game Project
+# 🎮 2D Platformer Game Project
 
-## Background
+## 🌟 Background
 
 This project is an ongoing 2D game development adventure, created using Unity. The goal is to build a platformer inspired by classics in the genre while adding unique gameplay mechanics and elements of introspective narrative.
 
 The project is currently in the prototyping phase, with a strong focus on smooth character movement and exploring advanced gameplay mechanics.
 
-## Project Ambition
+## 🚀 Project Ambition
 
 This game aims to combine intuitive and engaging gameplay with an emotionally rich experience. It draws inspiration from *Metroidvania* games and classic platformers, while aiming to explore a deeper narrative. The goal is to offer the player an introspective journey filled with challenges and discoveries.
 
-## Current Focus
+## 🎯 Current Focus
 
 At this stage, the focus is on developing the core gameplay mechanics, with particular attention to:
 
-- Camera System
-- Tilemap System
+- **Camera System**
+- **Tilemap System**
+- **Light System Test**
 
-- Light System Test
-
-## Technologies Used
+## 🛠️ Technologies Used
 
 - **Unity**: Game engine for development
 - **C#**: Primary programming language
 - **Pixel Art**: Art style for characters and environments
 
-## What's Coming
+## 🔮 What's Coming
 
 Once the prototyping phase and gameplay stabilization are complete, the focus will shift to:
-- Level design
-- Music and sound effects integration
-- UI and player feedback improvements
-- A playable demo version
+- **Level Design**
+- **Music and Sound Effects Integration**
+- **UI and Player Feedback Improvements**
+- **A Playable Demo Version**
 
-## Asset Accessibility
+## 📁 Asset Accessibility
 
 Please note that **some assets used in this project are not included in the public repository** due to licensing constraints. If you wish to contribute or work on the project with these assets, please **contact me directly** to access the required files.
 
@@ -41,6 +40,6 @@ The assets are located in the `Assets/Private` directory and are necessary for f
 
 For more information, please refer to the [LICENSE.md](./LICENSE.md) file.
 
-## Contribute
+## 🤝 Contribute
 
 If you'd like to contribute to the project, feel free to fork the repository and submit your improvements through *pull requests*. If you're interested in accessing the private assets, please contact me for further details.
