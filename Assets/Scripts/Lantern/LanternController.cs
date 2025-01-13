@@ -1,61 +1,90 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using System.Collections;
 
 public class LanternController : MonoBehaviour
 {
-    private LanternState currentState; 
-    private LanternIdleState idleState;
-    private LanternWeakState weakState;
+    private LanternState currentState;
+    public LanternOffState offState;
+    public LanternIdleState idleState;
+    private LanternMoveState moveState;
+    
+    private LanternTurningOnState turningOnState;
+    private LanternTurningOffState turningOffState;
 
-    [SerializeField] private Light2D lanternLight;
+    [SerializeField] public Light2D lanternLight; 
+    [SerializeField] private Rigidbody2D playerRigidbody;
+    
+    [SerializeField] private float moveThreshold = 2f;
 
     private void Awake()
     {
         // Initialisation des états
         idleState = new LanternIdleState(this);
-        weakState = new LanternWeakState(this);
+        moveState = new LanternMoveState(this);
+        offState = new LanternOffState(this);
+
+        turningOnState = new LanternTurningOnState(this);
+        turningOffState = new LanternTurningOffState(this);
 
         // Définir l'état initial
-        currentState = idleState;
-    }
-
-    private void Start()
-    {
-        // Si la lumière n'est pas assignée dans l'inspecteur
-        if (lanternLight == null)
-        {
-            lanternLight = GetComponent<Light2D>();
-        }
-
-        // Entrer dans l'état initial
-        currentState.EnterState();
+        currentState = offState;
     }
 
     private void Update()
     {
-        // Appeler l'état actuel
-        currentState.UpdateState();
-
-        // Tests : Changer d'état
-        if (Input.GetKeyDown(KeyCode.Alpha1)) 
+        if (currentState is LanternTurningOnState)
         {
-            ChangeState(idleState);
+            currentState.UpdateState(); 
+            return;
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2)) 
+
+        // Calculer la vitesse actuelle du joueur
+        float playerSpeed = playerRigidbody.linearVelocity.magnitude;
+
+        // Transition entre les états basées sur la vitesse 
+        if (currentState != offState && currentState != turningOffState)
         {
-            ChangeState(weakState);
+            if (playerSpeed < moveThreshold)
+            {
+                if (currentState != idleState)
+                    ChangeState(idleState);
+            }
+            else if (playerSpeed >= moveThreshold)
+            {
+                if (currentState != moveState)
+                    ChangeState(moveState);
+            }
+        }
+        
+        currentState?.UpdateState();
+    }
+
+    public void TurnOnLantern()
+    {
+        if (currentState == offState || currentState is LanternTurningOffState)
+        {
+            ChangeState(turningOnState);
         }
     }
 
-    // Méthode pour changer d'état
+    public void TurnOffLantern()
+    {
+        if (currentState != offState && !(currentState is LanternTurningOffState))
+        {
+            ChangeState(turningOffState);
+        }
+    }
+
+
     public void ChangeState(LanternState newState)
     {
         currentState.ExitState(); 
-        currentState = newState; 
+        currentState = newState;
         currentState.EnterState(); 
     }
 
-    // Méthode pour définir les paramètres
+
     public void SetLightParameters(float intensity, float outerRadius)
     {
         if (lanternLight != null)
@@ -65,3 +94,4 @@ public class LanternController : MonoBehaviour
         }
     }
 }
+

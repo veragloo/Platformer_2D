@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class LanternWeakState : LanternState
+public class LanternMoveState : LanternState
 {
-    private float weakIntensity = 0.45f; 
-    private float weakOuterRadius = 4.5f; 
-    private float flickerAmount = 0.2f; 
+    private float baseIntensity = 0.45f; 
+    private float baseOuterRadius = 4.8f; 
+    private float flickerAmount = 0.3f; 
     private float flickerSpeed = 12f; 
     private float flickerOffset;
 
-    public LanternWeakState(LanternController lantern) : base(lantern)
+    public LanternMoveState(LanternController lantern) : base(lantern)
     {
         flickerOffset = Random.Range(0f, 100f); // Décalage pour le bruit
     }
@@ -16,7 +16,7 @@ public class LanternWeakState : LanternState
     public override void EnterState()
     {
         // Initialiser les paramètres 
-        lantern.SetLightParameters(weakIntensity, weakOuterRadius);
+        lantern.SetLightParameters(baseIntensity, baseOuterRadius);
     }
 
     public override void UpdateState()
@@ -26,13 +26,13 @@ public class LanternWeakState : LanternState
         float flickerValue = (noise - 0.5f) * flickerAmount;
 
         lantern.SetLightParameters(
-            weakIntensity + flickerValue,
-            weakOuterRadius + flickerValue * 0.5f
+            baseIntensity + flickerValue,
+            baseOuterRadius + flickerValue * 0.5f
         );
     }
 
     public override void ExitState()
     {
-        // Rien à faire pour l'instant, mais peut être utile plus tard
+        // peut être utile plus tard
     }
 }
