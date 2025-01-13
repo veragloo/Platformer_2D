@@ -33,6 +33,6 @@ public class LanternIdleState : LanternState
 
     public override void ExitState()
     {
-        // Rien à faire pour l'instant, mais peut être utile plus tard
+        // peut être utile plus tard
     }
 }
