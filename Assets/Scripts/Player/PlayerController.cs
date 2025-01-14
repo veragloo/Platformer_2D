@@ -38,6 +38,7 @@ namespace TarodevController
         [SerializeField] private GameObject leftWallDetector; 
         [SerializeField] private GameObject rightWallDetector; 
         
+        // LedgeClimb
         [SerializeField] private Vector2 offset1Right; 
         [SerializeField] private Vector2 offset2Right; 
         [SerializeField] private Vector2 offset1Left;  
@@ -343,15 +344,18 @@ namespace TarodevController
         private bool _endedJumpEarly;
         private bool _coyoteUsable;
         private float _timeJumpWasPressed;
-        private bool _canWallJump;
-        
         private bool HasBufferedJump => _bufferedJumpUsable && _time < _timeJumpWasPressed + _stats.JumpBuffer;
         private bool CanUseCoyote => _coyoteUsable && !_grounded && _time < _frameLeftGrounded + _stats.CoyoteTime;
         
+        // WallJump
+        private bool _canWallJump;
         private float _timeWallJumpWasPressed; 
         private bool HasBufferedWallJump => _canWallJump && _time < _timeWallJumpWasPressed + _stats.JumpBuffer;
 
-        
+        // Ledge Cooldown for WallJump
+        private float _ledgeClimbCooldownTime = 0.5f; 
+        private float _ledgeClimbCooldownEndTime; 
+        private bool IsWallJumpBlocked => Time.time < _ledgeClimbCooldownEndTime;
 
         private void HandleJump()
         {
@@ -411,6 +415,12 @@ namespace TarodevController
 
         private void HandleWallJump()
         {
+            // Bloquer le wall jump si cooldown après ledge climb
+            if (IsWallJumpBlocked)
+            {
+                return;
+            }
+
             _endedJumpEarly = false;
             _timeWallJumpWasPressed = 0; 
             _timeJumpWasPressed = 0;
@@ -419,7 +429,6 @@ namespace TarodevController
 
             if (_isGrabbingWall)
             {
-                // Forcer zéro friction pendant le Wall Jump
                 StartCoroutine(ApplyZeroFriction());
                 _frameVelocity = new Vector2(0, _stats.JumpPower);
                 _isGrabbingWall = false; 
@@ -431,9 +440,6 @@ namespace TarodevController
             {
                 _frameVelocity = new Vector2(_wallNormal.x * _stats.WallJumpPushForce, _stats.JumpPower);
             }
-
-            // Désactiver temporairement Wall Jump
-            _canWallJump = false;
 
             Jumped?.Invoke();
             WallJumped?.Invoke();
@@ -693,14 +699,18 @@ namespace TarodevController
         
         #endregion
 
-        #region Ledge
+        #region Ledge 
 
+        [SerializeField] private Transform lantern; 
+        [SerializeField] private float lanternMoveDuration = 0.5f; 
+        [SerializeField] private Vector3 lanternOriginalOffset = Vector3.zero; 
+        
         private void CheckForLedge()
         {
             if ((ledgeDetected || ledgeDetectedLeft) && canGrabLedge)
             {
                 canGrabLedge = false;
-
+        
                 Vector2 ledgePosition = GetComponentInChildren<LedgeDetection>().transform.position;
                 if (ledgeDetected)
                 {
@@ -713,27 +723,26 @@ namespace TarodevController
                     climbOverPosition = ledgePosition + offset2Left;
                 }
 
+                // Bloquer le Wall Jump temporairement après la grimpe
+                _ledgeClimbCooldownEndTime = Time.time + _ledgeClimbCooldownTime;
+        
                 // Désactive la physique
                 _rb.bodyType = RigidbodyType2D.Kinematic; 
                 
+                // Positionne le joueur au début de la grimpe
                 transform.position = climbBegunPosition;
+        
+                // Lance l'animation de la lanterne
+                if (lantern != null)
+                {
+                    StartCoroutine(MoveLantern(climbBegunPosition, climbOverPosition));
+                }
+        
                 Invoke("ReactivatePhysics", 0.2f);
                 canClimb = true;
             }
         }
-
-        private void ReactivatePhysics()
-        {
-            _rb.bodyType = RigidbodyType2D.Dynamic;
-        }
-
-        private void ResetLedgeDetection()
-        {
-            ledgeDetected = false;
-            ledgeDetectedLeft = false;
-            canClimb = false;
-        }
-
+        
         private void LedgeClimbOver()
         {
             canClimb = false;
@@ -741,11 +750,46 @@ namespace TarodevController
             ResetLedgeDetection();
             Invoke("AllowLedgeGrab", .2f);
         }
-
+        
+        private void ReactivatePhysics()
+        {
+            _rb.bodyType = RigidbodyType2D.Dynamic;
+        }
+        
+        private void ResetLedgeDetection()
+        {
+            ledgeDetected = false;
+            ledgeDetectedLeft = false;
+            canClimb = false;
+        }
+        
         private void AllowLedgeGrab() => canGrabLedge = true;
         
+        // Coroutine pour déplacer la lanterne progressivement
+        private IEnumerator MoveLantern(Vector2 startPosition, Vector2 endPosition)
+        {
+            float elapsedTime = 0f;
+        
+            // Déplacement progressif de startPosition à endPosition
+            while (elapsedTime < lanternMoveDuration)
+            {
+                lantern.position = Vector2.Lerp(startPosition, endPosition, elapsedTime / lanternMoveDuration);
+                elapsedTime += Time.deltaTime;
+                yield return null; // Attend le frame suivant
+            }
+        
+            // S'assure que la lanterne est exactement à la position finale
+            lantern.position = endPosition;
+        
+            // Réinitialisation de la position de la lanterne après le mouvement
+            yield return new WaitForSeconds(0.2f); // Ajoute un léger délai si nécessaire
+            if (lantern != null)
+            {
+                lantern.localPosition = lanternOriginalOffset;
+            }
+        }
+        
         #endregion
-
         
         #region Horizontal
 

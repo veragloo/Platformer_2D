@@ -197,8 +197,8 @@ MonoBehaviour:
   Lens:
     FieldOfView: 34
     OrthographicSize: 5.625
-    NearClipPlane: 0.3
-    FarClipPlane: 1000
+    NearClipPlane: 0
+    FarClipPlane: 50
     Dutch: 0
     ModeOverride: 0
     PhysicalProperties:
@@ -17248,11 +17248,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: 0
+  far clip plane: 50
   field of view: 34
   orthographic: 1
-  orthographic size: 4.515625
+  orthographic size: 7.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -17733,6 +17733,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  lantern: {fileID: 323571665}
+  lanternMoveDuration: 0.5
+  lanternOriginalOffset: {x: 0, y: 0, z: 0}
 --- !u!70 &1025523559
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
