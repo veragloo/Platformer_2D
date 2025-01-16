@@ -421,6 +421,11 @@ namespace TarodevController
                 return;
             }
 
+            if (_isDashing)
+            {
+                CancelDash(); 
+            }
+
             _endedJumpEarly = false;
             _timeWallJumpWasPressed = 0; 
             _timeJumpWasPressed = 0;
