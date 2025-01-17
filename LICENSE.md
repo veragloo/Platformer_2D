@@ -6,7 +6,7 @@ This project is protected under a **proprietary license**, and is not allowed to
 
 - You may **use** the project for personal, non-commercial purposes.
 - You may **fork** and contribute to the project, but **you may not redistribute** the project or any part of it without prior permission.
-- The assets included in the `Assets/Private` directory cannot be redistributed, reused, or sold outside of this project.
+- The assets included in the `Assets/Private` directory are subject to their own licenses.
 
 ## Asset Acknowledgement
 
