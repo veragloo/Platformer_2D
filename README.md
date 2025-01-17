@@ -1,4 +1,4 @@
-# 🎮 2D Platformer Game Project
+# 2D Platformer Game Project
 
 ## 🌟 Background
 
@@ -15,8 +15,7 @@ This game aims to combine intuitive and engaging gameplay with an emotionally ri
 At this stage, the focus is on developing the core gameplay mechanics, with particular attention to:
 
 - **Camera System**
-- **Tilemap System**
-- **Light System Test**
+- **Light System**
 
 ## 🛠️ Technologies Used
 
