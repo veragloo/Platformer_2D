@@ -14,6 +14,7 @@ This game aims to combine intuitive and engaging gameplay with an emotionally ri
 
 At this stage, the focus is on developing the core gameplay mechanics, with particular attention to:
 
+- **Sound Design Setup**
 - **Camera System**
 - **Light System**
 
@@ -37,7 +38,7 @@ Please note that **some assets used in this project are not included in the publ
 
 The assets are located in the `Assets/Private` directory and are necessary for full functionality and visuals in the game. Without access to these, the project may not display correctly or function as intended.
 
-For more information, please refer to the [LICENSE.md](./LICENSE.md) file.
+For more information, please refer to the [LICENSE](./LICENSE.md) file.
 
 ## 🤝 Contribute
 
