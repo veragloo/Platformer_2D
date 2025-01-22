@@ -30,7 +30,10 @@ namespace TarodevController
         [SerializeField] private LayerMask PushableLayer;
         private bool isWallDetected;
         private bool isWallDetectedLeft;
+        
         private bool isWallSliding;
+        private bool isGrabbingAndSliding;
+        private bool isSliding;
         
         private bool isObjectDetected;
         private bool isObjectDetectedLeft;
@@ -61,6 +64,7 @@ namespace TarodevController
         public bool IsDashing => _isDashing;
         public bool IsGrabbingWall => _isGrabbingWall;
         public bool IsWallSliding => isWallSliding;
+        public bool IsSliding => isSliding;
         public bool canClimb { get; private set; }
         public float CurrentClimbSpeed => _currentClimbSpeed;
 
@@ -297,7 +301,10 @@ namespace TarodevController
             }
 
             // Determine if sliding is active
-            isWallSliding = !_isDashing && !_isGrabbingWall && !_grounded && _rb.linearVelocity.y < 0 && isMovingTowardsWall;
+            isWallSliding = !_isDashing && !_isGrabbingWall && !_grounded && _rb.linearVelocity.y < 0 && isMovingTowardsWall; // Without Grab
+            isGrabbingAndSliding = _isGrabbingWall && _rb.linearVelocity.y < -1f; // With Grab
+
+            isSliding = isWallSliding || isGrabbingAndSliding;
 
             // Set animation state
             _anim.SetBool("isWallSliding", isWallSliding);
@@ -902,6 +909,7 @@ namespace TarodevController
         bool IsDashing { get; }
         public bool IsGrabbingWall { get; }
         public bool IsWallSliding { get; }
+        public bool IsSliding { get; }
         bool canClimb { get; }
         float CurrentClimbSpeed { get; }
         bool IsGrounded { get; }

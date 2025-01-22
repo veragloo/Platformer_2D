@@ -10,20 +10,14 @@ namespace TarodevController
 
         [Header("Settings")]
         [SerializeField, Range(1f, 3f)] private float _maxIdleSpeed = 2;
-        [SerializeField] private float _maxTilt = 5;
-        [SerializeField] private float _tiltSpeed = 20;
 
         [Header("Particles")]
         [SerializeField] private ParticleSystem _jumpParticles;
         [SerializeField] private ParticleSystem _wallJumpParticles;
         [SerializeField] private ParticleSystem _landParticles;
         [SerializeField] private ParticleSystem _wallSlideParticles;
-        [SerializeField] private ParticleSystem _wallGrabParticles;
         [SerializeField] private ParticleSystem _pushParticles;
         [SerializeField] private ParticleSystem _dashParticles;
-
-        [Header("Audio Clips")]
-        [SerializeField] private AudioClip[] _footsteps;
 
         private AudioSource _source;
         private IPlayerController _player;
@@ -33,7 +27,6 @@ namespace TarodevController
 
         private void Awake()
         {
-            _source = GetComponent<AudioSource>();
             _player = GetComponentInParent<IPlayerController>();
             _rigidbody = GetComponent<Rigidbody2D>();
 
@@ -64,8 +57,6 @@ namespace TarodevController
             _anim.SetBool("Grounded", _player.IsGrounded);
 
             _anim.SetBool("canClimb", _player.canClimb);
-
-            // HandleCharacterTilt(); BUG WITH WALLGRAB REF z32 Origin #3/z#3
             
             // DetectGroundColor(); A VOIR
             
@@ -74,7 +65,6 @@ namespace TarodevController
             HandleDashAnimation();
             HandleGrabClimbing();
             OnWallSlide();
-            OnWallGrab();
 
             
         }
@@ -97,26 +87,12 @@ namespace TarodevController
             
         }
 
-        private void HandleCharacterTilt()
-        {
-            if (_player.IsGrabbingWall)
-            {
-                // Réinitialiser l'inclinaison 
-                _anim.transform.up = Vector2.up;
-            }
-            else
-            {
-                var runningTilt = _player.IsGrounded ? Quaternion.Euler(0, 0, _maxTilt * _player.FrameInput.x) : Quaternion.identity;
-                _anim.transform.up = Vector3.RotateTowards(_anim.transform.up, runningTilt * Vector2.up, _tiltSpeed * Time.deltaTime, 0f);
-            }
-        }
-
         private void HandleDashAnimation()
         {
             _anim.SetBool("isDashing", _player.IsDashing);
         }
 
-        private void OnDash()
+        private void OnDash() // Animation event
         {
             if (_player.IsDashing)
             {
@@ -214,7 +190,7 @@ namespace TarodevController
 
         private void OnWallSlide()
         {
-            if (_player.IsWallSliding)
+            if (_player.IsSliding)
             {
                 // Utilise la variable isFlipped pour savoir si le joueur est en flip X
                 float offsetX = isFlipped ? -0.17f : 0.17f; // Décalage à gauche si flip X, à droite sinon
@@ -230,28 +206,6 @@ namespace TarodevController
                 if (_wallSlideParticles.isPlaying)
                 {
                     _wallSlideParticles.Stop();
-                }
-            }
-        }
-
-        private void OnWallGrab()
-        {
-            if (_player.IsGrabbingWall && _rigidbody.linearVelocity.y < - 1f) 
-            {
-                // Utilisation de _wallGrabParticles pour l'agrippement au mur
-                float offsetX = isFlipped ? -0.18f : 0.18f; // Décalage selon le flip X
-                _wallGrabParticles.transform.position = new Vector3(transform.position.x + offsetX, transform.position.y, transform.position.z);
-
-                if (!_wallGrabParticles.isPlaying)
-                {
-                    _wallGrabParticles.Play();
-                }
-            }
-            else
-            {
-                if (_wallGrabParticles.isPlaying)
-                {
-                    _wallGrabParticles.Stop();
                 }
             }
         }
@@ -299,7 +253,6 @@ namespace TarodevController
             if (grounded) 
             {
                 _anim.SetTrigger(GroundedKey);
-                // _source.PlayOneShot(_footsteps[Random.Range(0, _footsteps.Length)]);
 
                 _landParticles.transform.position = new Vector3(transform.position.x, transform.position.y - 0.65f, transform.position.z);
 
