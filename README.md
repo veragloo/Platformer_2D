@@ -12,11 +12,8 @@ This game aims to combine intuitive and engaging gameplay with an emotionally ri
 
 ## 🎯 Current Focus
 
-At this stage, the focus is on developing the core gameplay mechanics, with particular attention to:
-
-- **Sound Design Setup**
-- **Camera System**
-- **Light System**
+- **Sound Design**
+- **Sound System Setup**
 
 ## 🛠️ Technologies Used
 
