@@ -120,14 +120,6 @@ namespace TarodevController
                 _wallSlideSource.Stop();
                 _isPlayingWallSlide = false;
             }
-
-            // LedgeClimb Bug Fix REF z34 #7/z#7
-            if (_player.canClimb)
-            {
-                _wallSlideSource.loop = false;
-                _wallSlideSource.Stop();
-                _isPlayingWallSlide = false;
-            }
         }
 
         private float _dashCooldown = 0.08f; 

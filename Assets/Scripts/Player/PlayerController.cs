@@ -302,7 +302,7 @@ namespace TarodevController
 
             // Determine if sliding is active
             isWallSliding = !_isDashing && !_isGrabbingWall && !_grounded && _rb.linearVelocity.y < 0 && isMovingTowardsWall; // Without Grab
-            isGrabbingAndSliding = _isGrabbingWall && _rb.linearVelocity.y < -1f; // With Grab
+            isGrabbingAndSliding = _isGrabbingWall && _rb.linearVelocity.y < -1f && !canClimb; // With Grab
 
             isSliding = isWallSliding || isGrabbingAndSliding;
 
