@@ -208,6 +208,12 @@ namespace TarodevController
                     _wallSlideParticles.Stop();
                 }
             }
+
+            // LedgeClimb Bug Fix REF z34 #7/z#7
+            if (_player.canClimb)
+            {
+                _wallSlideParticles.Stop();
+            }
         }
 
         private void OnJumped()
