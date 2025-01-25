@@ -12,8 +12,7 @@ This game aims to combine intuitive and engaging gameplay with an emotionally ri
 
 ## 🎯 Current Focus
 
-- **Sound Design**
-- **Sound System Setup**
+- Combat System (Setup)
 
 ## 🛠️ Technologies Used
 
