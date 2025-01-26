@@ -13,6 +13,7 @@ namespace TarodevController
         private InputAction jumpAction;
         private InputAction dashAction;
         private InputAction grabAction;
+        private InputAction attackAction;
         
         [SerializeField] private ScriptableStats _stats;
         private Rigidbody2D _rb;
@@ -20,6 +21,7 @@ namespace TarodevController
         private CapsuleCollider2D _col;
         private FrameInput _frameInput;
         private Vector2 _frameVelocity;
+        private SpriteRenderer _spriteRenderer;
         private bool _cachedQueryStartInColliders;
 
         public static event Action<float> OnVerticalVelocityChanged;
@@ -60,20 +62,19 @@ namespace TarodevController
         public event Action<bool, float> GroundedChanged;
         public event Action Jumped;
         public event Action WallJumped;
+        public event Action Attack;
         public bool IsGrounded => _grounded;
         public bool IsDashing => _isDashing;
         public bool IsGrabbingWall => _isGrabbingWall;
         public bool IsWallSliding => isWallSliding;
         public bool IsSliding => isSliding;
         public bool canClimb { get; private set; }
+        public bool IsRunning { get; private set; }
         public float CurrentClimbSpeed => _currentClimbSpeed;
 
         #endregion
 
-        
         private float _time;
-
-        private SpriteRenderer _spriteRenderer;
 
         private void Awake()
         {
@@ -89,11 +90,13 @@ namespace TarodevController
             jumpAction = playerControls.FindAction("Jump");
             dashAction = playerControls.FindAction("Dash");
             grabAction = playerControls.FindAction("Grab");
+            attackAction = playerControls.FindAction("Attack");
 
             moveAction.Enable();
             jumpAction.Enable();
             dashAction.Enable();
             grabAction.Enable();
+            attackAction.Enable();
         }
 
         private void OnEnable()
@@ -101,6 +104,7 @@ namespace TarodevController
             jumpAction.Enable();
             dashAction.Enable();
             grabAction.Enable();
+            attackAction.Enable();
         }
 
         private void OnDisable()
@@ -108,6 +112,7 @@ namespace TarodevController
             jumpAction.Disable();
             dashAction.Disable();
             grabAction.Disable();
+            attackAction.Disable();
         }
 
         private void OnDestroy()
@@ -116,6 +121,7 @@ namespace TarodevController
             jumpAction.Disable();
             dashAction.Disable();
             grabAction.Disable();
+            attackAction.Disable();
         }
 
                 private void Update()
@@ -139,7 +145,9 @@ namespace TarodevController
                 JumpHeld = jumpAction.ReadValue<float>() > 0, 
                 Move = move,
                 GrabDown = grabAction.triggered,
-                GrabHeld = grabAction.ReadValue<float>() > 0
+                GrabHeld = grabAction.ReadValue<float>() > 0,
+                AttackDown = attackAction.triggered
+                // Dash ???
             };
 
             // Why here?
@@ -176,6 +184,11 @@ namespace TarodevController
             if (!_frameInput.JumpHeld && _rb.linearVelocity.y > 0)
             {
                 _endedJumpEarly = true;
+            }
+            
+            if (_frameInput.AttackDown)
+            {
+                Attack?.Invoke();
             }
         }
 
@@ -590,8 +603,6 @@ namespace TarodevController
         
         #endregion
 
-
-
         #region Grab
         
         private bool _isTouchingWall;
@@ -819,6 +830,8 @@ namespace TarodevController
 
                 _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, _frameInput.Move.x * _stats.MaxSpeed, _stats.Acceleration * Time.fixedDeltaTime);
             }
+
+            IsRunning = _grounded && Mathf.Abs(_frameVelocity.x) > 0.1f;
         }
 
 
@@ -896,6 +909,7 @@ namespace TarodevController
         public bool DashDown;
         public bool GrabDown;
         public bool GrabHeld;
+        public bool AttackDown;
     }
 
     public interface IPlayerController
@@ -904,6 +918,7 @@ namespace TarodevController
 
         public event Action Jumped;
         public event Action WallJumped;
+        public event Action Attack;
         public Vector2 FrameInput { get; }
         public Vector2 Velocity { get; }
         bool IsDashing { get; }
@@ -913,5 +928,6 @@ namespace TarodevController
         bool canClimb { get; }
         float CurrentClimbSpeed { get; }
         bool IsGrounded { get; }
+        bool IsRunning { get; }
     }
 }

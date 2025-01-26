@@ -33,15 +33,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ToggleLantern",
-                    "type": "Button",
-                    "id": "5ce7245f-f7cc-46da-bb40-8c84d2465e37",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "e3ce133a-1003-4354-a0b0-0b33a880c425",
@@ -251,72 +242,6 @@
                 },
                 {
                     "name": "",
-                    "id": "ac96b20f-76dd-4ec1-9f55-aa95164fca05",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "532e60e8-848b-4b0c-a0fe-b6e5f9027616",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "28d6100b-e499-4c8e-8694-da5b9a07cfbd",
-                    "path": "<Touchscreen>/primaryTouch/tap",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Touch",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b6b27778-92ee-491b-9f9e-1af4c07deae2",
-                    "path": "<Joystick>/trigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joystick",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e64c9f5e-7cfe-4201-8b55-45548d4d3136",
-                    "path": "<XRController>/{PrimaryAction}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "XR",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b770d3fb-0504-42aa-899d-2920783895e1",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "680117fd-0781-4e69-9586-bd34c64ea5fd",
                     "path": "<Keyboard>/2",
                     "interactions": "",
@@ -416,11 +341,22 @@
                 },
                 {
                     "name": "",
-                    "id": "73497512-9bbf-4b3b-8c71-0c0c84ae741e",
-                    "path": "<Gamepad>/buttonNorth",
+                    "id": "513b92ea-d668-4c8f-9a33-f5bd1e7012d9",
+                    "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6d8c431d-b9ab-40c4-8494-b93252a99763",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -471,17 +407,6 @@
                 },
                 {
                     "name": "",
-                    "id": "8af18984-08fa-4a48-bba8-a43c2405c2dd",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "ab0cb494-581f-4e3f-83aa-accab3c28083",
                     "path": "<Keyboard>/z",
                     "interactions": "",
@@ -504,23 +429,12 @@
                 },
                 {
                     "name": "",
-                    "id": "110c2aaf-bd6b-45a0-b665-540a4a18e679",
-                    "path": "<Gamepad>/leftShoulder",
+                    "id": "8f110770-3a3e-4be8-904b-a811ec162ce7",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ToggleLantern",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e131d29f-f936-4c0b-a8ef-9dda0a962809",
-                    "path": "<XInputController>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ToggleLantern",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
