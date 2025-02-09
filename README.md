@@ -10,6 +10,16 @@ The project is currently in the prototyping phase, with a strong focus on smooth
 
 This game aims to combine intuitive and engaging gameplay with an emotionally rich experience. It draws inspiration from *Metroidvania* games and classic platformers, while aiming to explore a deeper narrative. The goal is to offer the player an introspective journey filled with challenges and discoveries.
 
+---
+
+### Screenshot of the 0.11.1 prototype
+
+<p align="center">
+  <img src="Demo/Platformer_2D_XBObnUPEsC.gif" alt="Password Generator Demo" />
+</p>
+
+---
+
 ## 🎯 Current Focus
 
 - Combat System (Setup)
